@@ -1,0 +1,367 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/*
+ * ────────────────────────────────────────────────────────────────────────────
+ *  SPARK — design tokens for the Pavilion Spark B2B portal (concept)
+ *  Single source of truth. /style-tile documents every value below.
+ *  Rules: logical properties only · 4px grid · Plate Yellow is rationed.
+ * ────────────────────────────────────────────────────────────────────────────
+ */
+
+@theme {
+  /* ── Colour · core palette (brief) ───────────────────────────────────── */
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-black: #000;
+  --color-white: #fff;
+
+  --color-graphite: #111315; /* canvas */
+  --color-panel: #1a1d21; /* surfaces */
+  --color-line: #2a2f35; /* structure: dividers, card outlines (decorative) */
+  --color-paper: #f4f5f6; /* primary text · document surfaces */
+  --color-plate: #f7d117; /* the accent — primary action, focus, the plate */
+  --color-cyan: #3cc8ff; /* blueprint lines, data highlights */
+  --color-stock: #22c55e; /* in stock */
+  --color-low: #f59e0b; /* low stock */
+
+  /* ── Colour · derived (contrast-tuned, see /style-tile) ──────────────── */
+  --color-panel-2: #22262b; /* hover / raised surface */
+  --color-line-strong: #3a4149; /* overlay outlines */
+  --color-edge: #666e78; /* interactive boundaries — ≥3:1 on graphite & panel */
+  --color-steel: #a3aab2; /* secondary text — 7.2:1 on panel */
+  --color-fog: #8c949d; /* tertiary text, placeholders — 5.5:1 on panel */
+  --color-plate-hover: #ffdf3d;
+  --color-plate-press: #e3be0b;
+  --color-fault: #ff6b5e; /* errors / out of stock only — 6.0:1 on panel */
+
+  /* Inks: the same hues re-tuned for Paper surfaces (≥4.5:1 on #F4F5F6) */
+  --color-cyan-ink: #0a6a94;
+  --color-stock-ink: #15803d;
+  --color-low-ink: #b45309;
+  --color-fault-ink: #c2341f;
+
+  /* Plate artwork only — never UI */
+  --color-euro: #003da5;
+
+  /* ── Type families ───────────────────────────────────────────────────── */
+  --font-sans: var(--font-plex), "IBM Plex Sans Hebrew", system-ui, sans-serif;
+  --font-display: var(--font-karantina), "Karantina", var(--font-plex), sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+
+  /* ── Fluid type scale · 9 steps · 390px → 1440px ─────────────────────── */
+  --text-*: initial;
+  --text-micro: clamp(0.6875rem, 0.6643rem + 0.0952vw, 0.75rem); /* 11 → 12 */
+  --text-micro--line-height: 1.45;
+  --text-caption: clamp(0.8125rem, 0.7893rem + 0.0952vw, 0.875rem); /* 13 → 14 */
+  --text-caption--line-height: 1.45;
+  --text-body: clamp(1rem, 0.9768rem + 0.0952vw, 1.0625rem); /* 16 → 17 */
+  --text-body--line-height: 1.6;
+  --text-lead: clamp(1.125rem, 1.0786rem + 0.1905vw, 1.25rem); /* 18 → 20 */
+  --text-lead--line-height: 1.5;
+  --text-title: clamp(1.25rem, 1.1571rem + 0.381vw, 1.5rem); /* 20 → 24 */
+  --text-title--line-height: 1.3;
+  --text-heading: clamp(1.5rem, 1.3143rem + 0.7619vw, 2rem); /* 24 → 32 */
+  --text-heading--line-height: 1.2;
+  --text-headline: clamp(2.5rem, 1.9429rem + 2.2857vw, 4rem); /* 40 → 64 */
+  --text-headline--line-height: 0.95;
+  --text-display: clamp(3.5rem, 2.2rem + 5.3333vw, 7rem); /* 56 → 112 */
+  --text-display--line-height: 0.9;
+  --text-mega: clamp(5rem, 2.7714rem + 9.1429vw, 11rem); /* 80 → 176 */
+  --text-mega--line-height: 0.85;
+
+  /* ── Space · 4px base (p-1 = 4px … p-32 = 128px; half-steps are banned) */
+  --spacing: 0.25rem;
+
+  /* ── Radii ───────────────────────────────────────────────────────────── */
+  --radius-*: initial;
+  --radius-xs: 2px; /* chips, tags, callout labels */
+  --radius-sm: 4px; /* buttons, inputs, steppers */
+  --radius-md: 8px; /* cards, popovers, toasts */
+  --radius-lg: 12px; /* sheets, dialogs, the plate */
+
+  /* ── Elevation · on graphite, light comes from lines, not blur ───────── */
+  --shadow-*: initial;
+  --shadow-line: 0 0 0 1px var(--color-line);
+  --shadow-raised: inset 0 1px 0 0 rgb(255 255 255 / 0.04), 0 1px 2px 0 rgb(0 0 0 / 0.5);
+  --shadow-overlay: 0 0 0 1px var(--color-line-strong), 0 12px 32px -8px rgb(0 0 0 / 0.7), 0 2px 6px 0 rgb(0 0 0 / 0.4);
+  --shadow-modal: 0 0 0 1px var(--color-line-strong), 0 32px 80px -16px rgb(0 0 0 / 0.8);
+  --shadow-paper: 0 1px 0 0 rgb(17 19 21 / 0.06), 0 12px 32px -16px rgb(17 19 21 / 0.35);
+
+  /* ── Motion · easings ────────────────────────────────────────────────── */
+  --ease-*: initial;
+  --ease-snap: cubic-bezier(0.16, 1, 0.3, 1); /* enter, hover-in, explode drift */
+  --ease-exit: cubic-bezier(0.55, 0, 1, 0.45); /* leave — exits accelerate away */
+  --ease-move: cubic-bezier(0.65, 0, 0.35, 1); /* reposition, view transitions */
+  --ease-draw: cubic-bezier(0.45, 0.05, 0.25, 1); /* pen stroke: steady, lands soft */
+  --ease-zap: cubic-bezier(0.9, 0, 0.1, 1); /* the spark: holds, then discharges */
+  --ease-spring: linear(0, 0.099 4.2%, 0.309 8.3%, 0.538 12.5%, 0.737 16.7%, 0.884 20.8%, 0.979 25%, 1.031 29.2%, 1.052 33.3%, 1.053 37.5%, 1.044 41.7%, 1.032 45.8%, 1.02 50%, 1.011 54.2%, 1.004 58.3%, 1); /* ζ 0.68 — 5% overshoot, never bouncy */
+
+  --default-transition-duration: 180ms;
+  --default-transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-fuse: fuse 1100ms cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  --animate-blink: blink 1600ms cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  --animate-shimmer: shimmer 1400ms linear infinite;
+
+  @keyframes fuse {
+    0% { inset-inline-start: 0; inline-size: 0; }
+    50% { inset-inline-start: 0; inline-size: 100%; }
+    100% { inset-inline-start: 100%; inline-size: 0; }
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+  @keyframes shimmer {
+    from { background-position: 100% 0; }
+    to { background-position: -100% 0; }
+  }
+}
+
+/* Durations live outside @theme (Tailwind has no duration namespace). */
+:root {
+  --dur-press: 80ms;
+  --dur-fast: 180ms;
+  --dur-base: 220ms;
+  --dur-slow: 260ms;
+  --dur-spark: 400ms;
+  --dur-draw: 900ms;
+  --stagger: 24ms;
+
+  /* Grid paper — 4% ink */
+  --grid-ink: rgb(60 200 255 / 0.04);
+  --grid-size: 16px;
+}
+
+/* shadcn/ui compatibility: future `shadcn add` components inherit SPARK. */
+:root {
+  --background: #111315;
+  --foreground: #f4f5f6;
+  --card: #1a1d21;
+  --card-foreground: #f4f5f6;
+  --popover: #1a1d21;
+  --popover-foreground: #f4f5f6;
+  --primary: #f7d117;
+  --primary-foreground: #111315;
+  --secondary: #22262b;
+  --secondary-foreground: #f4f5f6;
+  --muted: #1a1d21;
+  --muted-foreground: #a3aab2;
+  --accent: #22262b;
+  --accent-foreground: #f4f5f6;
+  --destructive: #ff6b5e;
+  --border: #2a2f35;
+  --input: #666e78;
+  --ring: #f7d117;
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+/* ── Utilities ─────────────────────────────────────────────────────────── */
+@utility duration-press { transition-duration: var(--dur-press); }
+@utility duration-fast { transition-duration: var(--dur-fast); }
+@utility duration-base { transition-duration: var(--dur-base); }
+@utility duration-slow { transition-duration: var(--dur-slow); }
+@utility duration-spark { transition-duration: var(--dur-spark); }
+@utility duration-draw { transition-duration: var(--dur-draw); }
+
+/* Blueprint grid paper at 4% — minor 16px, major 64px */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-ink) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-ink) 1px, transparent 1px),
+    linear-gradient(to right, var(--grid-ink) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-ink) 1px, transparent 1px);
+  background-size:
+    var(--grid-size) var(--grid-size),
+    var(--grid-size) var(--grid-size),
+    calc(var(--grid-size) * 4) calc(var(--grid-size) * 4),
+    calc(var(--grid-size) * 4) calc(var(--grid-size) * 4);
+}
+
+/* Mono technical label — Latin/digits only (never letter-space Hebrew) */
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  line-height: var(--text-micro--line-height);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-steel);
+}
+
+/* CAD selection frame: four cyan corner ticks that appear on hover/focus */
+@utility cad-frame {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    opacity: 0;
+    scale: 1.015;
+    transition:
+      opacity var(--dur-fast) var(--ease-snap),
+      scale var(--dur-fast) var(--ease-snap);
+    --t: var(--color-cyan);
+    background:
+      linear-gradient(var(--t), var(--t)) 0 0 / 12px 1px no-repeat,
+      linear-gradient(var(--t), var(--t)) 0 0 / 1px 12px no-repeat,
+      linear-gradient(var(--t), var(--t)) 100% 0 / 12px 1px no-repeat,
+      linear-gradient(var(--t), var(--t)) 100% 0 / 1px 12px no-repeat,
+      linear-gradient(var(--t), var(--t)) 0 100% / 12px 1px no-repeat,
+      linear-gradient(var(--t), var(--t)) 0 100% / 1px 12px no-repeat,
+      linear-gradient(var(--t), var(--t)) 100% 100% / 12px 1px no-repeat,
+      linear-gradient(var(--t), var(--t)) 100% 100% / 1px 12px no-repeat;
+  }
+  &:hover::after,
+  &:focus-within::after,
+  &[data-selected="true"]::after {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+/* Skeleton shimmer for loading states */
+@utility skeleton {
+  background: linear-gradient(90deg, var(--color-panel) 0%, var(--color-panel-2) 50%, var(--color-panel) 100%);
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+  border-radius: var(--radius-xs);
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--color-graphite);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-padding-block-start: 80px;
+  }
+
+  body {
+    min-block-size: 100dvh;
+    background-color: var(--color-graphite);
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-line);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-plate);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-plate);
+    color: var(--color-graphite);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Numbers, SKUs, prices: always tabular and isolated; codes never wrap */
+  bdi {
+    font-variant-numeric: tabular-nums;
+  }
+  bdi.font-mono,
+  .font-mono > bdi {
+    white-space: nowrap;
+  }
+
+  /* Icon nudge toward inline-end on hover (arrows in primary actions) */
+  [data-nudge] {
+    transition: translate var(--dur-fast) var(--ease-snap);
+  }
+  :where(button, a):hover > [data-nudge] {
+    translate: -2px 0;
+  }
+  :where([dir="ltr"]) :where(button, a):hover > [data-nudge] {
+    translate: 2px 0;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
+  /* Paper surfaces (documents) flip the ink */
+  .surface-paper {
+    background-color: var(--color-paper);
+    color: var(--color-graphite);
+    --grid-ink: rgb(10 106 148 / 0.06);
+  }
+  .surface-paper :focus-visible {
+    outline-color: var(--color-graphite);
+  }
+}
+
+/* ── Reduced motion: everything lands instantly; signature moments swap to
+      static variants in their components. ───────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-press: 0ms;
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+    --dur-spark: 0ms;
+    --dur-draw: 0ms;
+    --stagger: 0ms;
+  }
+  *,
+  ::before,
+  ::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Windows High Contrast: keep focus and boundaries visible */
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 2px solid CanvasText;
+  }
+}
