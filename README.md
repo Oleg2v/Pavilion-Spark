@@ -8,11 +8,13 @@ Hebrew · RTL · mobile-first. Next.js 15 · TypeScript · Tailwind CSS v4 · sh
 
 | Stage | Scope | State |
 |---|---|---|
-| 0 | Art direction: tokens, `/style-tile`, decisions | ✅ awaiting review |
+| 0 | Art direction: tokens, `/style-tile`, decisions | ✅ deployed, awaiting review |
 | 1 | Signature moment: licence plate → registry → exploded view (`/hero-lab`) | — |
 | 2 | App flows: search, cart, order timeline, reorder, price list, returns, account, rep view | — |
 | 3 | Polish pass | — |
 | 4 | QA, Lighthouse, axe, demo path | — |
+
+**Live (unlisted, noindex):** https://pavilion-spark.kikkey.com → `/style-tile`
 
 ## Run
 
@@ -24,6 +26,24 @@ pnpm lint
 pnpm check:tokens   # design-tokens.ts ↔ globals.css drift guard
 pnpm build
 ```
+
+## Deploy (Cloudflare Workers via OpenNext)
+
+Follows the Kikkey convention: one Worker per pitch demo on `<client>.kikkey.com`.
+
+| | |
+|---|---|
+| Worker | `pavilion-spark` (Kikkey account, pinned in `wrangler.jsonc`) |
+| Domain | `pavilion-spark.kikkey.com` (Workers custom domain; `*.workers.dev` and preview URLs off) |
+| Adapter | `@opennextjs/cloudflare` — real Next.js 15 build output; Cloudflare's own tooling picks OpenNext for Next ≤ 15 |
+| Cache | prerendered pages are read from Workers static assets (`open-next.config.ts`) — minimal CPU per request |
+
+```bash
+pnpm preview        # build + run the Worker locally in workerd (http://localhost:8787)
+pnpm deploy         # build + deploy; needs CLOUDFLARE_API_TOKEN in the environment
+```
+
+`public/_headers` adds `X-Robots-Tag: noindex` and immutable caching to static assets; `next.config.ts` adds the same header to Worker responses.
 
 ## Where things live
 

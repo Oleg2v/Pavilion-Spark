@@ -1,0 +1,8 @@
+# Workers static assets headers (served without invoking the Worker).
+# Demo hygiene: nothing from this pitch demo may be indexed.
+/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+  X-Content-Type-Options: nosniff
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
