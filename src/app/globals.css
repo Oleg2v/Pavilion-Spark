@@ -2,6 +2,12 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* compact: a phone with Large/Very large browser text. rem media queries scale
+   with the browser's default font size, so 18rem is 288px at 16px, 360px at
+   20px and 432px at 24px. Compact trades padding and decoration for room —
+   never content. */
+@custom-variant compact (@media (width < 18rem));
+
 /*
  * ────────────────────────────────────────────────────────────────────────────
  *  SPARK — design tokens for the Pavilion Spark B2B portal (concept)

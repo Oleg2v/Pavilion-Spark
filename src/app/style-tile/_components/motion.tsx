@@ -187,7 +187,7 @@ function SpringAndSpark() {
   }
 
   return (
-    <div className="grid gap-4 rounded-md border border-line bg-panel p-6 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-8">
+    <div className="grid gap-4 rounded-md border border-line bg-panel p-6 compact:p-4 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-8">
       <div className="grid gap-2">
         <h3 className="flex items-center gap-2 text-title font-semibold">
           <Zap className="size-5 text-plate" strokeWidth={1.75} aria-hidden />
@@ -198,8 +198,8 @@ function SpringAndSpark() {
           ״קפיצה״ של התג ב-<En className="font-mono text-paper">ease-snap</En>. בתנועה מופחתת: בלי חלקיקים, רק עדכון המונה.
         </p>
       </div>
-      <div className="flex flex-wrap items-center justify-between gap-6 rounded-md border border-line bg-graphite bg-grid p-4 sm:gap-12 sm:p-6 lg:justify-end">
-        <Button ref={btn} onClick={add} size="lg">
+      <div className="flex flex-wrap items-center justify-between gap-6 rounded-md border border-line bg-graphite bg-grid p-4 compact:p-3 sm:gap-12 sm:p-6 lg:justify-end">
+        <Button ref={btn} onClick={add} size="lg" className="compact:[&>svg]:hidden">
           <ShoppingCart aria-hidden strokeWidth={1.75} />
           הוסף לסל
         </Button>
@@ -241,7 +241,7 @@ export function Motion() {
         <h3 className="label-mono">
           <En>EASINGS · HOVER OR TAP A CURVE</En>
         </h3>
-        <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
+        <ul className="grid grid-cols-2 gap-4 compact:grid-cols-1 md:grid-cols-3 lg:grid-cols-5">
           {EASINGS.map((e) => (
             <EasingCurve key={e.token} token={e.token} bezier={e.bezier} use={e.use} />
           ))}

@@ -117,15 +117,14 @@ export function TileHeader() {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-line bg-graphite/85 backdrop-blur-md">
-        {/* max-[18rem]: rem media queries scale with the browser's default font size, so
-            this is a phone with Large/Very large text: the wordmark goes sr-only and the
-            gaps tighten, so the nav strip keeps room for at least one whole link */}
-        <div className="mx-auto flex h-14 max-w-[1360px] items-center gap-4 px-4 max-[18rem]:gap-3 sm:px-6 lg:px-10">
+        {/* compact (phone + large browser text): the wordmark goes sr-only and the gaps
+            tighten, so the nav strip keeps room for at least one whole link */}
+        <div className="mx-auto flex h-14 max-w-[1360px] items-center gap-4 px-4 compact:gap-3 sm:px-6 lg:px-10">
           {/* name = the visible text + a hidden purpose (label-in-name, WCAG 2.5.3).
               #top with no such id = the top of the document (HTML spec), so it lands at 0 */}
           <a href="#top" className="relative flex shrink-0 items-center gap-3 rounded-sm">
             <SparkMark />
-            <span className="flex items-baseline gap-2 max-[18rem]:sr-only">
+            <span className="flex items-baseline gap-2 compact:sr-only">
               <span className="text-body font-semibold text-paper">ספרק</span>
               <span className="label-mono hidden sm:inline">
                 <En>Style Tile · Rev A</En>

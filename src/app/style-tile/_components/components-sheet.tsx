@@ -30,7 +30,7 @@ function Frame({
   note?: React.ReactNode
 }) {
   return (
-    <article className={cn("grid min-w-0 content-start gap-6 rounded-md border border-line bg-graphite p-4 sm:p-6", className)}>
+    <article className={cn("grid min-w-0 content-start gap-6 rounded-md border border-line bg-graphite p-4 compact:p-3 sm:p-6", className)}>
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <SpecLabel code={code}>{title}</SpecLabel>
         {note ? <p className="text-caption text-steel">{typeof note === "string" ? <Iso>{note}</Iso> : note}</p> : null}
@@ -304,7 +304,7 @@ function PartCard() {
         </div>
       </CardContent>
       <CardFooter>
-        <Button ref={btn} onClick={add} className="flex-1">
+        <Button ref={btn} onClick={add} className="flex-1 compact:[&>svg]:hidden">
           <ShoppingCart strokeWidth={1.75} aria-hidden />
           {added ? "הוסף עוד" : "הוסף לסל"}
         </Button>
