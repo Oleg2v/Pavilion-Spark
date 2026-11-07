@@ -29,8 +29,11 @@ const worker = {
   async fetch(request: Request, env: unknown, ctx: WorkerContext): Promise<Response> {
     const url = new URL(request.url)
 
-    if (url.protocol === "http:" && !LOCAL_HOSTS.has(url.hostname)) {
+    // robots.txt is answered on both schemes (the zone's managed robots.txt
+    // otherwise replaces our redirect with an "Allow: /" block over http).
+    if (url.protocol === "http:" && !LOCAL_HOSTS.has(url.hostname) && url.pathname !== "/robots.txt") {
       url.protocol = "https:"
+      url.port = "" // Cloudflare's alternate HTTP ports (8080, 2052, …) are not TLS ports
       const safe = request.method === "GET" || request.method === "HEAD"
       return new Response(null, {
         status: safe ? 301 : 308,

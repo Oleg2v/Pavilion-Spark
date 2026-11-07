@@ -44,7 +44,8 @@ export function ToastCard({ tone, title, description, action, onDismiss, classNa
       </span>
       <div className="min-w-0 flex-1">
         <p className="text-body leading-6 font-semibold">{title}</p>
-        {description ? <p className="mt-1 text-caption text-steel">{description}</p> : null}
+        {/* codes may break at their spaces here when text is very large (narrow toast) */}
+        {description ? <p className="mt-1 text-caption text-steel [&_bdi]:whitespace-normal">{description}</p> : null}
         {action ? (
           <button
             type="button"

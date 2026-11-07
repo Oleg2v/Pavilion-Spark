@@ -4,10 +4,10 @@ import { En, Iso } from "@/components/spark/text"
 
 export function Space() {
   return (
-    <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-12 lg:grid-cols-12 lg:gap-8">
       <ol className="grid content-start gap-2 [--k:1] sm:[--k:2] lg:col-span-7">
         {SPACING.map((n) => (
-          <li key={n} className="grid grid-cols-[80px_1fr_104px] items-center gap-4">
+          <li key={n} className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4">
             <span>
               <bdi className="font-mono text-caption text-paper">space-{n}</bdi>
             </span>
@@ -31,7 +31,7 @@ export function Space() {
           <h3 className="label-mono">
             <En>LAYOUT</En>
           </h3>
-          <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 text-body">
+          <dl className="mt-4 grid grid-cols-1 gap-x-6 gap-y-1 text-body sm:grid-cols-[auto_minmax(0,1fr)] sm:gap-y-3">
             <dt className="text-steel">עמודות</dt>
             <dd>
               <bdi className="font-mono">4 / 8 / 12</bdi> <span className="text-caption text-steel">
@@ -66,7 +66,9 @@ export function Space() {
             כל מרווח, גובה ורוחב הוא כפולה של <bdi className="font-mono text-cyan">4px</bdi>. חצאי צעדים (<bdi className="font-mono">p-0.5</bdi>,{" "}
             <bdi className="font-mono">gap-1.5</bdi>) אסורים בפריסה — מותרים רק בהיסטים של תנועה.
           </p>
-          <p className="mt-3 text-caption text-steel">לחצו ״רשת 4px״ בכותרת כדי לראות את הרשת מעל כל העמוד.</p>
+          <p className="mt-3 text-caption text-steel">
+            <Iso>לחצו ״רשת 4px״ בכותרת כדי לראות את הרשת מעל כל העמוד.</Iso>
+          </p>
         </div>
       </div>
     </div>
@@ -80,7 +82,7 @@ export function FormElevation() {
         <h3 className="label-mono">
           <En>RADII · SMALL ON PURPOSE — PRECISION, NOT PILLS</En>
         </h3>
-        <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <ul className="grid grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4 lg:grid-cols-4">
           {RADII.map((r) => (
             <li key={r.token} className="grid gap-3 rounded-md border border-line bg-panel p-4">
               <span className="grid h-24 place-items-center rounded-xs bg-graphite bg-grid">
@@ -96,7 +98,9 @@ export function FormElevation() {
             </li>
           ))}
         </ul>
-        <p className="text-caption text-steel">הדגימות מוגדלות ×2 לקריאוּת.</p>
+        <p className="text-caption text-steel">
+          <Iso>הדגימות מוגדלות ×2 לקריאוּת.</Iso>
+        </p>
       </div>
 
       <div className="grid gap-4">

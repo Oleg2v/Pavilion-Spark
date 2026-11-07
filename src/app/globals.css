@@ -255,13 +255,13 @@
 @utility skeleton {
   position: relative;
   overflow: hidden;
-  background-color: var(--color-panel);
+  background-color: var(--color-panel-2);
   border-radius: var(--radius-xs);
   &::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent 0%, var(--color-panel-2) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, rgb(255 255 255 / 0.05) 50%, transparent 100%);
     animation: var(--animate-shimmer);
   }
 }
@@ -273,7 +273,6 @@
     background-color: var(--color-graphite);
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
-    scroll-padding-block-start: 80px;
   }
 
   body {
@@ -296,6 +295,13 @@
   :focus-visible {
     outline: 2px solid var(--color-plate);
     outline-offset: 2px;
+  }
+
+  /* Keep anchor targets and focused controls clear of the 56px sticky header.
+     Set on the targets, not as html scroll-padding: Chrome applies
+     scroll-padding to focus inside the sticky header too and jumps the page. */
+  main :where(section[id], a, button, input, select, textarea, summary, [tabindex]) {
+    scroll-margin-block-start: 80px;
   }
 
   ::selection {

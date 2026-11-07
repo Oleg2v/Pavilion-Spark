@@ -59,7 +59,9 @@ export default function StyleTilePage() {
             <span aria-hidden>·</span>
             <En className="font-mono">WCAG 2.0 AA</En>
             <span aria-hidden>·</span>
-            <span>ת״י 5568</span>
+            <span>
+              ת״י <bdi>5568</bdi>
+            </span>
           </p>
         </div>
       </footer>

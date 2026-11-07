@@ -209,7 +209,9 @@ function InputSpec() {
         <div className="grid content-start gap-2">
           <Label htmlFor="po-err">מספר רכב</Label>
           <Input id="po-err" defaultValue="12-34" aria-invalid aria-describedby="po-err-msg" dir="ltr" className="text-end font-mono" />
-          <p id="po-err-msg" className="text-caption text-fault">מספר רכב הוא 7 או 8 ספרות.</p>
+          <p id="po-err-msg" className="text-caption text-fault">
+            <Iso>מספר רכב הוא 7 או 8 ספרות.</Iso>
+          </p>
         </div>
         <div className="grid content-start gap-2">
           <Label htmlFor="dis">הערות למשלוח</Label>
@@ -261,7 +263,7 @@ function PartCard() {
         </span>
       </CardMedia>
       <CardContent className="grid gap-3">
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <span className="label-mono text-paper">
             <En>TYC</En>
           </span>
@@ -284,7 +286,7 @@ function PartCard() {
             היום עד <bdi className="font-mono">14:00</bdi>
           </Chip>
         </div>
-        <div className="flex items-end justify-between gap-4 pt-1">
+        <div className="flex flex-wrap items-end justify-between gap-4 pt-1">
           <div className="grid">
             <span className="text-caption text-steel">
               מחיר לדרג <bdi className="font-mono">B</bdi>
@@ -319,7 +321,7 @@ function SkeletonCard() {
         <div className="h-4 w-24 skeleton" />
         <div className="h-6 w-3/4 skeleton" />
         <div className="h-4 w-1/2 skeleton" />
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <div className="h-6 w-20 skeleton" />
           <div className="h-6 w-28 skeleton" />
         </div>
@@ -427,7 +429,7 @@ const nis = (n: number) => `₪${n.toLocaleString("en-US", { minimumFractionDigi
 function TableSpec() {
   return (
     <Frame code="C-05" title="שורת טבלה" note="מחירון 2026 · מספרים מיושרים לספרת האחדות" className="xl:col-span-2">
-      <ul className="grid gap-px overflow-hidden rounded-md border border-line bg-line lg:hidden" aria-label="דוגמת מחירון — תצוגת טלפון">
+      <ul className="grid gap-px overflow-hidden rounded-md border border-line bg-line lg:hidden" aria-label="דוגמת מחירון — תצוגת כרטיסים">
         {ROWS.map((r) => (
           <li
             key={r.sku}
@@ -439,7 +441,9 @@ function TableSpec() {
             )}
           >
             <span className="grid gap-1">
-              <span className={cn("text-body font-medium", r.state === "out" && "text-steel")}>{r.name}</span>
+              <span className={cn("text-body font-medium", r.state === "out" && "text-steel")}>
+                <Iso>{r.name}</Iso>
+              </span>
               <span className="flex flex-wrap items-center gap-x-2 text-caption text-steel">
                 <bdi className="font-mono text-paper">{r.sku}</bdi>
                 <span aria-hidden>·</span>
@@ -492,7 +496,9 @@ function TableSpec() {
                 <TableCell>
                   <bdi className="font-mono text-paper">{r.sku}</bdi>
                 </TableCell>
-                <TableCell className="max-w-[280px] truncate">{r.name}</TableCell>
+                <TableCell className="max-w-[280px] truncate">
+                  <Iso>{r.name}</Iso>
+                </TableCell>
                 <TableCell className="text-steel">
                   <bdi>{r.brand}</bdi>
                 </TableCell>
@@ -616,7 +622,7 @@ function VoiceSpec() {
     <Frame code="C-07" title="קול ומיקרוקופי" note="ישיר, מדויק, פונה בגוף שני רבים">
       <ul className="grid gap-px overflow-hidden rounded-md border border-line bg-line">
         {VOICE.map((v) => (
-          <li key={v.where} className="grid gap-1 bg-graphite p-4 sm:grid-cols-[120px_1fr] sm:gap-4">
+          <li key={v.where} className="grid gap-1 bg-graphite p-4 sm:grid-cols-[7.5rem_minmax(0,1fr)] sm:gap-4">
             <span className="text-caption text-steel">{v.where}</span>
             <span className="grid gap-1">
               <span className="text-body text-paper">

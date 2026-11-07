@@ -56,7 +56,7 @@ function DurationRuler() {
         {DURATIONS.map((d, i) => (
           <li
             key={d.token}
-            className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-3 border-b border-line bg-graphite p-4 last:border-b-0 md:grid-cols-[180px_1fr_auto] md:px-6"
+            className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-3 border-b border-line bg-graphite p-4 last:border-b-0 md:grid-cols-[11.25rem_minmax(0,1fr)_auto] md:px-6"
           >
             <span className="grid gap-1">
               <span className="flex items-baseline gap-3">
@@ -150,8 +150,8 @@ function EasingCurve({ token, bezier, use }: { token: string; bezier: readonly n
         <span ref={bar} className="block h-full scale-x-0 bg-cyan rtl:origin-right ltr:origin-left" />
       </span>
       <div className="grid gap-1">
-        <span>
-          <En className="font-mono text-caption text-paper">ease-{token}</En>
+        <span className="font-mono text-caption text-paper">
+          <En>ease-{token}</En>
         </span>
         <span dir="ltr" className="text-end font-mono text-micro text-steel">
           {bezierCss(bezier)}
@@ -194,7 +194,7 @@ function SpringAndSpark() {
           חתימה: הניצוץ של ״הוסף לסל״
         </h3>
         <p className="max-w-[56ch] text-body text-steel">
-          <En className="font-mono text-paper">dur-spark 400ms · ease-zap</En> — שובל חלקיקים על canvas מהכפתור אל הסל, ואז
+          <En className="font-mono text-paper">dur-spark 400ms</En> · <En className="font-mono text-paper">ease-zap</En> — שובל חלקיקים על canvas מהכפתור אל הסל, ואז
           ״קפיצה״ של התג ב-<En className="font-mono text-paper">ease-snap</En>. בתנועה מופחתת: בלי חלקיקים, רק עדכון המונה.
         </p>
       </div>
@@ -247,7 +247,7 @@ export function Motion() {
           ))}
         </ul>
         <p className="text-caption text-steel">
-          ועוד <En className="font-mono text-paper">ease-spring</En> — ‎<bdi className="font-mono">linear()</bdi>‎ של קפיץ ζ 0.68: חריגה של 5%, אף פעם לא
+          ועוד <En className="font-mono text-paper">ease-spring</En> — ‎<bdi className="font-mono">linear()</bdi>‎ של קפיץ <bdi>ζ 0.68</bdi>: חריגה של <bdi>5%</bdi>, אף פעם לא
           ״קופצני״. לתגי סל וצ׳יפים.
         </p>
       </div>

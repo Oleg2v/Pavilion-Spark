@@ -133,7 +133,7 @@ export function Motif() {
             <svg viewBox="0 0 264 56" className="w-full text-cyan" aria-hidden fill="none" stroke="currentColor" direction="ltr">
               <circle cx="12" cy="44" r="3" fill="currentColor" stroke="none" />
               <path d="M12 44L52 12H96" />
-              <text x="104" y="16" fill="currentColor" stroke="none" fontSize="10" fontFamily="var(--font-plex-mono)">
+              <text x="104" y="16" textLength="150" lengthAdjust="spacingAndGlyphs" fill="currentColor" stroke="none" fontSize="10" fontFamily="var(--font-plex-mono)">
                 ANCHOR → ELBOW → LABEL
               </text>
             </svg>

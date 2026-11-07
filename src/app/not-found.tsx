@@ -1,8 +1,6 @@
 import type { Metadata } from "next"
-import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
 import { LicensePlate } from "@/components/spark/plate/license-plate"
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 
 export const metadata: Metadata = {
   title: "העמוד לא נמצא",
@@ -20,12 +18,15 @@ export default function NotFound() {
           <h1 className="font-display text-headline font-bold text-paper">העמוד לא נמצא</h1>
           <p className="text-lead text-steel">הכתובת שגויה, או שהעמוד עבר מקום. מכאן ממשיכים לסטייל טייל.</p>
         </div>
-        <Button asChild size="lg">
-          <Link href="/style-tile">
-            לסטייל טייל
-            <ArrowLeft data-nudge strokeWidth={1.75} aria-hidden />
-          </Link>
-        </Button>
+        {/* plain <a>, not next/link: a full navigation keeps Back correct after the
+            skip link's #main fragment, and the 404 ships no client JS */}
+        <a href="/style-tile" className={buttonVariants({ size: "lg" })}>
+          לסטייל טייל
+          {/* inline arrow: lucide icons are client components and would add a chunk to every page */}
+          <svg data-nudge viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+        </a>
       </div>
     </main>
   )

@@ -14,9 +14,13 @@ export function En({ children, className }: { children: React.ReactNode; classNa
 
 /**
  * Numeric runs in Hebrew prose: ranges, units, ratios, times.
- * "180–260ms", "≥3:1", "1.5%", "11:00", "(390 / 768 / 1024+)"
+ * "180–260ms", "≥3:1", "×2", "+30%", "1.5%", "11:00", "(390 / 768 / 1024+)".
+ * Separators must be followed by a digit, so a sentence-final "." or ","
+ * stays outside the isolate; letters/digits on either side (B2B, H7) are
+ * not split.
  */
-const NUMERIC = /([≥≤~]?\d[\d.,]*(?:\s?[–—\-→/×:]\s?\d[\d.,]*)*(?:\s?(?:ms|px|MS|PX|%|\+))?)/g
+const NUMERIC =
+  /(?<![A-Za-z\d])((?:[≥≤~×+−]\s?)?\d+(?:[.,:]\d+)*(?:\s?[–—\-→/×]\s?\d+(?:[.,:]\d+)*)*(?:\s?(?:ms|px|MS|PX|%|\+))?)(?![A-Za-z\d])/g
 
 /**
  * Wraps every numeric run of a Hebrew string in <bdi> (the style tile's rule

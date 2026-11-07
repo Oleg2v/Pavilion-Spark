@@ -55,7 +55,7 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
         "hover:bg-panel",
         "data-[state=selected]:bg-cyan/6",
         "[&[data-state=selected]>td:first-child]:relative",
-        "[&[data-state=selected]>td:first-child]:before:absolute [&[data-state=selected]>td:first-child]:before:inset-y-0 [&[data-state=selected]>td:first-child]:before:start-0 [&[data-state=selected]>td:first-child]:before:w-0.5 [&[data-state=selected]>td:first-child]:before:bg-cyan",
+        "[&[data-state=selected]>td:first-child]:before:absolute [&[data-state=selected]>td:first-child]:before:inset-y-0 [&[data-state=selected]>td:first-child]:before:start-0.5 [&[data-state=selected]>td:first-child]:before:w-0.5 [&[data-state=selected]>td:first-child]:before:bg-cyan",
         className,
       )}
       {...props}

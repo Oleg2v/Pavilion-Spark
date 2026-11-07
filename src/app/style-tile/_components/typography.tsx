@@ -80,7 +80,7 @@ export function Typography() {
                   ))}
                 </span>
               ) : (
-                f.sample
+                <Iso>{f.sample}</Iso>
               )}
             </p>
           </li>
@@ -100,7 +100,7 @@ export function Typography() {
           {TYPE_SCALE.map((t) => (
             <li
               key={t.token}
-              className="grid grid-cols-1 gap-3 border-b border-line bg-graphite p-4 last:border-b-0 md:grid-cols-[64px_1fr_280px] md:items-center md:gap-6 md:px-6"
+              className="grid grid-cols-1 gap-3 border-b border-line bg-graphite p-4 last:border-b-0 md:grid-cols-[4rem_minmax(0,1fr)_17.5rem] md:items-center md:gap-6 md:px-6"
             >
               <span className="flex items-baseline gap-3 md:block">
                 <bdi className="font-mono text-caption text-cyan tabular-nums">{String(t.step).padStart(2, "0")}</bdi>

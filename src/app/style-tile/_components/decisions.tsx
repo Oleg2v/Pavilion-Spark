@@ -62,7 +62,7 @@ export function Decisions() {
       <section aria-labelledby="bold-title" className="rounded-md border border-line bg-panel">
         <header className="flex items-baseline justify-between gap-4 border-b border-line px-6 py-4">
           <h3 id="bold-title" className="text-title font-semibold">
-            5 החלטות נועזות שאנחנו מתחייבים להן
+            <bdi>5</bdi> החלטות נועזות שאנחנו מתחייבים להן
           </h3>
           <span className="label-mono text-stock">
             <En>COMMIT</En>
@@ -70,7 +70,7 @@ export function Decisions() {
         </header>
         <ol className="grid">
           {BOLD.map((b, i) => (
-            <li key={i} className="grid grid-cols-[auto_1fr] gap-4 border-b border-line px-6 py-5 last:border-b-0">
+            <li key={i} className="grid grid-cols-[auto_minmax(0,1fr)] gap-4 border-b border-line px-6 py-5 last:border-b-0">
               <span className="font-display text-headline leading-none font-bold text-paper tabular-nums">
                 <bdi>{i + 1}</bdi>
               </span>
@@ -93,7 +93,7 @@ export function Decisions() {
       <section aria-labelledby="avoid-title" className="rounded-md border border-line bg-panel">
         <header className="flex items-baseline justify-between gap-4 border-b border-line px-6 py-4">
           <h3 id="avoid-title" className="text-title font-semibold">
-            5 קלישאות שאנחנו נמנעים מהן
+            <bdi>5</bdi> קלישאות שאנחנו נמנעים מהן
           </h3>
           <span className="label-mono text-fault">
             <En>REJECT</En>
@@ -101,7 +101,7 @@ export function Decisions() {
         </header>
         <ol className="grid">
           {AVOID.map((a, i) => (
-            <li key={i} className="grid grid-cols-[auto_1fr] gap-4 border-b border-line px-6 py-5 last:border-b-0">
+            <li key={i} className="grid grid-cols-[auto_minmax(0,1fr)] gap-4 border-b border-line px-6 py-5 last:border-b-0">
               <span aria-hidden className="relative grid size-10 place-items-center rounded-sm border border-fault/40 text-fault">
                 <svg viewBox="0 0 16 16" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M3 3l10 10M13 3L3 13" />

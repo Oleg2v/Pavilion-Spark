@@ -1,6 +1,3 @@
-"use client"
-
-import { useId } from "react"
 import { cn } from "@/lib/utils"
 import { GLYPHS, GLYPH_H, GLYPH_W, HYPHEN_W, PLATE_H, PLATE_W, STROKE, formatPlate, plateGroups } from "./glyphs"
 const BAND = { x: 5, y: 5, w: 46, h: 100 }
@@ -59,16 +56,19 @@ export type LicensePlateProps = {
   /** Accessible name; pass `decorative` to hide from assistive tech. */
   label?: string
   decorative?: boolean
+  /** Unique prefix for the SVG ids; needed only when one page shows the same plate twice. */
+  idPrefix?: string
 }
 
 /**
  * Pixel-accurate Israeli licence plate (520 × 110 mm, euroband, DIN-style
  * digits). Pure SVG — scales to any width with zero font dependencies.
+ * Hook-free on purpose: renders on the server (no client JS) and can also
+ * be imported by client components (the Stage 1 plate input).
  */
-export function LicensePlate({ value, className, label, decorative }: LicensePlateProps) {
-  const uid = useId().replace(/:/g, "")
-  const clipId = `plate-glyph-${uid}`
+export function LicensePlate({ value, className, label, decorative, idPrefix }: LicensePlateProps) {
   const digits = value.replace(/\D/g, "")
+  const clipId = `${idPrefix ?? "plate"}-${digits || "x"}-glyph`
   const items = layout(digits)
   const name = label ?? `לוחית רישוי ${formatPlate(digits)}`
 
