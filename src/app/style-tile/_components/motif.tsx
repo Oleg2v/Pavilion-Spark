@@ -1,6 +1,7 @@
 import { Chip } from "@/components/ui/chip"
 import { PartArt, type PartKind } from "@/components/spark/line-art"
 import { Price } from "@/components/spark/price"
+import { En, Iso } from "@/components/spark/text"
 
 /** Drawing coordinates (160 × 120 sheet) → % of the figure box. */
 const X = (x: number) => `${(x / 160) * 100}%`
@@ -64,7 +65,7 @@ export function Motif() {
                   style={{ left: X(c.side === "right" ? c.lx + 2 : c.lx - 2), top: Y(c.ly) }}
                 >
                   <span className="label-mono text-cyan">
-                    <bdi>{c.code}</bdi>
+                    <En>{c.code}</En>
                   </span>
                   <span className="text-caption whitespace-nowrap text-steel" dir="rtl">
                     {c.he}
@@ -79,7 +80,7 @@ export function Motif() {
                 <span aria-hidden className="grid size-5 place-items-center rounded-full border border-cyan font-mono text-micro text-cyan">
                   {i + 1}
                 </span>
-                <bdi className="label-mono text-cyan">{c.code}</bdi>
+                <En className="label-mono text-cyan">{c.code}</En>
                 <span>{c.he}</span>
               </li>
             ))}
@@ -95,7 +96,7 @@ export function Motif() {
               </span>
             </span>
             <span className="label-mono">
-              <bdi>LEADER LINE = LIVE DATA</bdi>
+              <En>LEADER LINE = LIVE DATA</En>
             </span>
           </figcaption>
         </figure>
@@ -104,16 +105,16 @@ export function Motif() {
         <div className="grid content-start gap-4 lg:col-span-4">
           <div className="grid gap-3 rounded-md border border-line bg-panel p-6">
             <h3 className="label-mono">
-              <bdi>GRID PAPER · 4%</bdi>
+              <En>GRID PAPER · 4%</En>
             </h3>
             <div aria-hidden className="h-28 rounded-sm border border-line bg-graphite bg-grid" />
             <p className="text-caption text-steel">
-              רשת 16px, קו ראשי כל 64px, דיו ציאן ב-4%. רק מתחת לשרטוטים ולמשטחי ״שולחן עבודה״ — לא מתחת לטקסט רץ.
+              <Iso>רשת 16px, קו ראשי כל 64px, דיו ציאן ב-4%. רק מתחת לשרטוטים ולמשטחי ״שולחן עבודה״ — לא מתחת לטקסט רץ.</Iso>
             </p>
           </div>
           <div className="grid gap-3 rounded-md border border-line bg-panel p-6">
             <h3 className="label-mono">
-              <bdi>DIMENSION LINE</bdi>
+              <En>DIMENSION LINE</En>
             </h3>
             <svg viewBox="0 0 240 40" className="w-full text-cyan" aria-hidden fill="none" stroke="currentColor" direction="ltr">
               <path d="M8 4V36M232 4V36" strokeDasharray="2 3" opacity={0.6} />
@@ -127,16 +128,18 @@ export function Motif() {
           </div>
           <div className="grid gap-3 rounded-md border border-line bg-panel p-6">
             <h3 className="label-mono">
-              <bdi>LEADER LINE ANATOMY</bdi>
+              <En>LEADER LINE ANATOMY</En>
             </h3>
-            <svg viewBox="0 0 240 56" className="w-full text-cyan" aria-hidden fill="none" stroke="currentColor" direction="ltr">
+            <svg viewBox="0 0 264 56" className="w-full text-cyan" aria-hidden fill="none" stroke="currentColor" direction="ltr">
               <circle cx="12" cy="44" r="3" fill="currentColor" stroke="none" />
               <path d="M12 44L52 12H96" />
               <text x="104" y="16" fill="currentColor" stroke="none" fontSize="10" fontFamily="var(--font-plex-mono)">
                 ANCHOR → ELBOW → LABEL
               </text>
             </svg>
-            <p className="text-caption text-steel">נקודת עיגון 3px, קו 1px, כתף אופקית. התווית תמיד מחוץ לשרטוט.</p>
+            <p className="text-caption text-steel">
+              <Iso>נקודת עיגון 3px, קו 1px, כתף אופקית. התווית תמיד מחוץ לשרטוט.</Iso>
+            </p>
           </div>
         </div>
       </div>
@@ -144,7 +147,7 @@ export function Motif() {
       {/* parts sheet */}
       <div className="grid gap-4">
         <h3 className="label-mono">
-          <bdi>PART LINE-ART · ONE LANGUAGE FOR EVERY PRODUCT IMAGE</bdi>
+          <En>PART LINE-ART · ONE LANGUAGE FOR EVERY PRODUCT IMAGE</En>
         </h3>
         <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-md border border-line bg-line sm:grid-cols-3 lg:grid-cols-6">
           {PARTS.map((p) => (
@@ -155,7 +158,7 @@ export function Motif() {
               <span className="flex items-baseline justify-between gap-2">
                 <span className="text-caption font-medium">{p.he}</span>
                 <span className="font-mono text-micro text-fog">
-                  <bdi>{p.code}</bdi>
+                  <En>{p.code}</En>
                 </span>
               </span>
             </li>

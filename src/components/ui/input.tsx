@@ -12,6 +12,8 @@ const inputBase = [
   "hover:border-steel",
   "focus-visible:border-plate focus-visible:shadow-[0_0_0_1px_var(--color-plate)] focus-visible:outline-hidden",
   "aria-invalid:border-fault aria-invalid:shadow-[0_0_0_1px_var(--color-fault)]",
+  // focus beats the error state; the error stays readable from the message + red border at rest
+  "aria-invalid:focus-visible:border-plate! aria-invalid:focus-visible:shadow-[0_0_0_1px_var(--color-plate)]!",
   "disabled:cursor-not-allowed disabled:opacity-40",
   "read-only:border-line read-only:bg-graphite",
 ]

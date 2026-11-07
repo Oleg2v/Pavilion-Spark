@@ -9,6 +9,7 @@ import { Sheet } from "./_components/sheet"
 import { FormElevation, Space } from "./_components/space-form"
 import { TileHeader } from "./_components/tile-header"
 import { Typography } from "./_components/typography"
+import { En } from "@/components/spark/text"
 
 export const metadata: Metadata = {
   title: "Style Tile",
@@ -51,12 +52,12 @@ export default function StyleTilePage() {
       <footer className="border-t border-line">
         <div className="mx-auto flex max-w-[1360px] flex-col gap-2 px-4 py-8 text-caption text-steel sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-10">
           <p>
-            <bdi className="font-mono">SPARK</bdi> · קונספט של <bdi>Kikkey</bdi> לביתן ספרק · לא האתר הרשמי · מחירי דמו בלבד
+            <En className="font-mono">SPARK</En> · קונספט של <En>Kikkey</En> לביתן ספרק · לא האתר הרשמי · מחירי דמו בלבד
           </p>
           <p className="flex flex-wrap gap-x-2">
-            <bdi className="font-mono">REV A · 06.11.2026</bdi>
+            <En className="font-mono">REV A · 06.11.2026</En>
             <span aria-hidden>·</span>
-            <bdi className="font-mono">WCAG 2.0 AA</bdi>
+            <En className="font-mono">WCAG 2.0 AA</En>
             <span aria-hidden>·</span>
             <span>ת״י 5568</span>
           </p>

@@ -37,6 +37,7 @@ Follows the Kikkey convention: one Worker per pitch demo on `<client>.kikkey.com
 | Domain | `pavilion-spark.kikkey.com` (Workers custom domain; `*.workers.dev` and preview URLs off) |
 | Adapter | `@opennextjs/cloudflare` — real Next.js 15 build output; Cloudflare's own tooling picks OpenNext for Next ≤ 15 |
 | Cache | prerendered pages are read from Workers static assets (`open-next.config.ts`) — minimal CPU per request |
+| Edge | `custom-worker.ts` wraps the OpenNext handler: http → https (301/308) and `X-Robots-Tag` / `nosniff` / `Referrer-Policy` / HSTS on every Worker response, including redirects and 404s |
 
 ```bash
 pnpm preview        # build + run the Worker locally in workerd (http://localhost:8787)

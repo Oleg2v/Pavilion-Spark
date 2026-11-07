@@ -12,6 +12,7 @@ import { PartArt } from "@/components/spark/line-art"
 import { fireSpark } from "@/components/spark/spark-trail"
 import { ToastCard, notify } from "@/components/spark/toast-card"
 import { Price } from "@/components/spark/price"
+import { En, Iso } from "@/components/spark/text"
 import { cn } from "@/lib/utils"
 import { SpecLabel } from "./sheet"
 
@@ -29,10 +30,10 @@ function Frame({
   note?: React.ReactNode
 }) {
   return (
-    <article className={cn("grid content-start gap-6 rounded-md border border-line bg-graphite p-4 sm:p-6", className)}>
+    <article className={cn("grid min-w-0 content-start gap-6 rounded-md border border-line bg-graphite p-4 sm:p-6", className)}>
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <SpecLabel code={code}>{title}</SpecLabel>
-        {note ? <p className="text-caption text-steel">{note}</p> : null}
+        {note ? <p className="text-caption text-steel">{typeof note === "string" ? <Iso>{note}</Iso> : note}</p> : null}
       </div>
       {children}
     </article>
@@ -42,7 +43,7 @@ function Frame({
 function StateLabel({ children }: { children: React.ReactNode }) {
   return (
     <span className="font-mono text-micro text-fog">
-      <bdi>{children}</bdi>
+      <En>{children}</En>
     </span>
   )
 }
@@ -71,8 +72,9 @@ function ButtonSpec() {
         </div>
         <div className="grid gap-3 border-t border-line pt-6">
           <span className="label-mono">
-            <bdi>STATES · PRIMARY</bdi>
+            <En>STATES · PRIMARY</En>
           </span>
+          <p className="sr-only">דוגמאות מצב של הכפתור הראשי ״שליחת הזמנה״: רגיל, ריחוף, פוקוס, לחיצה, טעינה ומושבת.</p>
           <div inert className="flex flex-wrap items-end gap-x-4 gap-y-6">
             {[
               { s: "rest", cls: "" },
@@ -102,7 +104,7 @@ function ButtonSpec() {
         </div>
         <div className="grid gap-3 border-t border-line pt-6">
           <span className="label-mono">
-            <bdi>SIZES · 32 / 40 / 48</bdi>
+            <En>SIZES · 32 / 40 / 48</En>
           </span>
           <div className="flex flex-wrap items-end gap-4">
             <Button size="sm">הוסף</Button>
@@ -156,6 +158,7 @@ function Stepper() {
 
 function InputSpec() {
   const [value, setValue] = useState("")
+  const omnibox = useRef<HTMLInputElement>(null)
   return (
     <Frame code="C-02" title="שדה קלט">
       <div className="grid gap-2">
@@ -163,6 +166,7 @@ function InputSpec() {
         <div className="relative">
           <Search aria-hidden strokeWidth={1.75} className="pointer-events-none absolute start-4 top-1/2 size-5 -translate-y-1/2 text-steel" />
           <Input
+            ref={omnibox}
             id="omnibox"
             type="search"
             value={value}
@@ -176,7 +180,10 @@ function InputSpec() {
             {value ? (
               <button
                 type="button"
-                onClick={() => setValue("")}
+                onClick={() => {
+                  setValue("")
+                  omnibox.current?.focus()
+                }}
                 aria-label="ניקוי החיפוש"
                 className="grid size-8 place-items-center rounded-sm text-steel hover:bg-panel-2 hover:text-paper"
               >
@@ -247,7 +254,7 @@ function PartCard() {
       <CardMedia className="aspect-[4/3]">
         <PartArt kind="headlight" className="absolute inset-6 h-auto w-auto" />
         <span className="absolute start-3 top-3 label-mono text-cyan">
-          <bdi>01 · ELEC</bdi>
+          <En>01 · ELEC</En>
         </span>
         <span className="absolute end-3 top-3">
           <Chip tone="demo">מחירי דמו</Chip>
@@ -256,7 +263,7 @@ function PartCard() {
       <CardContent className="grid gap-3">
         <div className="flex items-center justify-between gap-2">
           <span className="label-mono text-paper">
-            <bdi>TYC</bdi>
+            <En>TYC</En>
           </span>
           <bdi className="font-mono text-caption text-steel">20-1234-00</bdi>
         </div>
@@ -355,7 +362,7 @@ function ChipSpec() {
     <Frame code="C-04" title="צ׳יפ" note="צבע לעולם לא לבד — תמיד גם מילה">
       <div className="grid gap-3">
         <span className="label-mono">
-          <bdi>STATUS</bdi>
+          <En>STATUS</En>
         </span>
         <div className="flex flex-wrap gap-2">
           <Chip tone="stock" dot>
@@ -367,15 +374,18 @@ function ChipSpec() {
           <Chip tone="out" dot>
             אזל
           </Chip>
-          <Chip tone="eta">
+          {/* the one long chip may wrap on narrow phones instead of overflowing */}
+          <Chip tone="eta" className="h-auto min-h-6 py-1 whitespace-normal">
             <Clock strokeWidth={1.75} aria-hidden />
-            הזמינו עד <bdi className="font-mono">11:00</bdi> — אצלכם היום עד <bdi className="font-mono">14:00</bdi>
+            <span>
+              הזמינו עד <bdi className="font-mono">11:00</bdi> — אצלכם היום עד <bdi className="font-mono">14:00</bdi>
+            </span>
           </Chip>
         </div>
       </div>
       <div className="grid gap-3 border-t border-line pt-6">
         <span className="label-mono">
-          <bdi>FILTER · aria-pressed</bdi>
+          <En>FILTER · aria-pressed</En>
         </span>
         <div className="flex flex-wrap gap-2" role="group" aria-label="מחלקה">
           {DEPTS.map(([k, he]) => (
@@ -387,7 +397,7 @@ function ChipSpec() {
       </div>
       <div className="grid gap-3 border-t border-line pt-6">
         <span className="label-mono">
-          <bdi>ANNOTATION</bdi>
+          <En>ANNOTATION</En>
         </span>
         <div className="flex flex-wrap gap-2">
           <Chip tone="tier">
@@ -417,13 +427,15 @@ const nis = (n: number) => `₪${n.toLocaleString("en-US", { minimumFractionDigi
 function TableSpec() {
   return (
     <Frame code="C-05" title="שורת טבלה" note="מחירון 2026 · מספרים מיושרים לספרת האחדות" className="xl:col-span-2">
-      <ul className="grid gap-px overflow-hidden rounded-md border border-line bg-line md:hidden" aria-label="דוגמת מחירון — תצוגת טלפון">
+      <ul className="grid gap-px overflow-hidden rounded-md border border-line bg-line lg:hidden" aria-label="דוגמת מחירון — תצוגת טלפון">
         {ROWS.map((r) => (
           <li
             key={r.sku}
             className={cn(
               "relative grid grid-cols-[1fr_auto] gap-x-4 gap-y-2 bg-graphite p-4",
-              r.state === "selected" && "bg-cyan/6 before:absolute before:inset-y-0 before:start-0 before:w-0.5 before:bg-cyan",
+              // opaque tint: a translucent bg-cyan/6 would let the bg-line separators show through
+              r.state === "selected" &&
+                "bg-[color-mix(in_oklab,var(--color-cyan)_6%,var(--color-graphite))] before:absolute before:inset-y-0 before:start-0 before:w-0.5 before:bg-cyan",
             )}
           >
             <span className="grid gap-1">
@@ -458,7 +470,7 @@ function TableSpec() {
           </li>
         ))}
       </ul>
-      <div className="hidden overflow-hidden rounded-md border border-line md:block">
+      <div className="hidden overflow-hidden rounded-md border border-line lg:block">
         <Table label="דוגמת מחירון">
           <TableHeader>
             <TableRow className="hover:bg-transparent">
@@ -513,7 +525,7 @@ function TableSpec() {
         </Table>
       </div>
       <div className="flex flex-wrap gap-x-6 gap-y-2">
-        {["rest", "hover · panel", "selected · cyan bar", "out of stock · muted", "≤ 767px → row cards"].map((s) => (
+        {["rest", "hover · panel", "selected · cyan bar", "out of stock · muted", "≤ 1023px → row cards"].map((s) => (
           <StateLabel key={s}>{s}</StateLabel>
         ))}
       </div>
@@ -525,6 +537,7 @@ function TableSpec() {
 function ToastSpec() {
   return (
     <Frame code="C-06" title="טוסט" note="מופיע בפינת הסל · נעלם אחרי 4 שניות">
+      <p className="sr-only">שלוש דוגמאות טוסט: נוסף לסל, ההזמנה נשלחה, והמאגר הממשלתי איטי כרגע.</p>
       <div inert className="grid gap-3">
         <ToastCard
           tone="cart"
@@ -606,8 +619,12 @@ function VoiceSpec() {
           <li key={v.where} className="grid gap-1 bg-graphite p-4 sm:grid-cols-[120px_1fr] sm:gap-4">
             <span className="text-caption text-steel">{v.where}</span>
             <span className="grid gap-1">
-              <span className="text-body text-paper">״{v.text}״</span>
-              <span className="text-caption text-fog">{v.note}</span>
+              <span className="text-body text-paper">
+                ״<Iso>{v.text}</Iso>״
+              </span>
+              <span className="text-caption text-fog">
+                <Iso>{v.note}</Iso>
+              </span>
             </span>
           </li>
         ))}
@@ -619,7 +636,8 @@ function VoiceSpec() {
 export function ComponentsSheet() {
   return (
     <div className="grid gap-6">
-      <div className="grid gap-6 xl:grid-cols-2">
+      {/* minmax(0,1fr): one wide specimen must never widen the whole sheet (reflow at 320px) */}
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-6 xl:grid-cols-2">
         <ButtonSpec />
         <InputSpec />
         <CardSpec />

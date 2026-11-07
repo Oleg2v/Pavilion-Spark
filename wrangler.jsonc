@@ -4,7 +4,7 @@
   "name": "pavilion-spark",
   // Kikkey account (owner of kikkey.com). Pinned: the deploy token can also see another account.
   "account_id": "be9447e281c6e9198712ade2d0241029",
-  "main": ".open-next/worker.js",
+  "main": "custom-worker.ts",
   "compatibility_date": "2026-11-04",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
@@ -16,5 +16,8 @@
   "workers_dev": false,
   "preview_urls": false,
   "upload_source_maps": true,
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
+  // wrangler dev presents the first route's host; use https like production
+  // (custom-worker.ts upgrades plain-http requests, which would loop locally)
+  "dev": { "upstream_protocol": "https" }
 }

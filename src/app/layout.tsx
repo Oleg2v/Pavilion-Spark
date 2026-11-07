@@ -5,16 +5,17 @@ import { SkipLink } from "@/components/spark/skip-link"
 import { Providers } from "@/components/spark/providers"
 import "./globals.css"
 
+// Only the weights the UI renders (each extra weight is another preloaded woff2 per subset).
 const plex = IBM_Plex_Sans_Hebrew({
   subsets: ["hebrew", "latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
   variable: "--font-plex",
   display: "swap",
 })
 
 const karantina = Karantina({
   subsets: ["hebrew", "latin"],
-  weight: ["300", "400", "700"],
+  weight: ["700"],
   variable: "--font-karantina",
   display: "swap",
 })

@@ -1,3 +1,4 @@
+import { En, Iso } from "@/components/spark/text"
 import { PlateDiagram } from "./plate-diagram"
 
 const CONCEPT = [
@@ -27,9 +28,9 @@ export function Hero() {
       <div className="mx-auto grid max-w-[1360px] gap-12 px-4 pt-12 pb-16 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:px-10 lg:pt-16 lg:pb-24">
         <div className="lg:col-span-5">
           <p className="label-mono flex flex-wrap gap-x-4 gap-y-1">
-            <bdi>SPARK</bdi>
-            <bdi>STYLE TILE</bdi>
-            <bdi>REV A · 06.11.2026</bdi>
+            <En>SPARK</En>
+            <En>STYLE TILE</En>
+            <En>REV A · 06.11.2026</En>
           </p>
           <h1 id="hero-title" className="mt-6 font-display text-display font-bold text-paper">
             <span className="sr-only">ספרק — כיוון אמנותי: </span>
@@ -40,7 +41,7 @@ export function Hero() {
             ))}
           </h1>
           <p className="mt-6 max-w-[44ch] text-lead text-steel">
-            פורטל הזמנות B2B לביתן ספרק — כאילו Linear או Stripe בנו אותו לחלקי חילוף.
+            פורטל הזמנות <bdi>B2B</bdi> לביתן ספרק — כאילו <En>Linear</En> או <En>Stripe</En> בנו אותו לחלקי חילוף.
           </p>
         </div>
 
@@ -57,9 +58,11 @@ export function Hero() {
                   <bdi>{c.n}</bdi>
                 </span>
               </span>
-              <p className="text-body text-paper/90">{c.line}</p>
+              <p className="text-body text-paper/90">
+                <Iso>{c.line}</Iso>
+              </p>
               <p className="label-mono normal-case tracking-normal">
-                <bdi>{c.en}</bdi>
+                <En>{c.en}</En>
               </p>
             </li>
           ))}

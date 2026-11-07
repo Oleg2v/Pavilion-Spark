@@ -14,7 +14,7 @@ function Table({
   return (
     <div
       data-slot="table-container"
-      className="relative w-full overflow-x-auto"
+      className="relative w-full overflow-x-auto focus-visible:-outline-offset-2"
       role={label ? "region" : undefined}
       aria-label={label}
       tabIndex={label ? 0 : undefined}

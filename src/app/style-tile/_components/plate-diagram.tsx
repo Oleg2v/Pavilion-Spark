@@ -1,6 +1,7 @@
 import { LicensePlate } from "@/components/spark/plate/license-plate"
 import { PLATE_H, PLATE_W } from "@/components/spark/plate/glyphs"
 import { cn } from "@/lib/utils"
+import { En } from "@/components/spark/text"
 
 /**
  * The plate as an engineering drawing: dimension lines + numbered callouts.
@@ -64,13 +65,13 @@ export function PlateDiagram({ value = "1234567", className }: { value?: string;
           className="absolute -translate-x-1/2 -translate-y-1/2 bg-graphite px-2 font-mono text-micro text-cyan"
           style={{ left: px(260), top: py(-28) }}
         >
-          <bdi>520 MM</bdi>
+          <En>520 MM</En>
         </span>
         <span
           className="absolute -translate-x-1/2 -translate-y-1/2 bg-graphite py-1 font-mono text-micro text-cyan [writing-mode:vertical-rl]"
           style={{ left: px(548), top: py(55) }}
         >
-          <bdi>110 MM</bdi>
+          <En>110 MM</En>
         </span>
 
         {/* numbered markers at leader ends */}
@@ -101,7 +102,7 @@ export function PlateDiagram({ value = "1234567", className }: { value?: string;
             }}
           >
             <span className="label-mono text-cyan">
-              <bdi>{c.code}</bdi>
+              <En>{c.code}</En>
             </span>
             <span className="text-caption text-steel" dir="rtl">
               {c.he}
@@ -123,7 +124,7 @@ export function PlateDiagram({ value = "1234567", className }: { value?: string;
               </span>
               <span className="flex flex-col gap-1">
                 <span className="label-mono text-cyan">
-                  <bdi>{c.code}</bdi>
+                  <En>{c.code}</En>
                 </span>
                 <span className="text-caption text-steel">{c.he}</span>
               </span>

@@ -1,3 +1,5 @@
+import { En, Iso } from "@/components/spark/text"
+
 const BOLD = [
   {
     t: "הלוחית היא דף הבית.",
@@ -63,7 +65,7 @@ export function Decisions() {
             5 החלטות נועזות שאנחנו מתחייבים להן
           </h3>
           <span className="label-mono text-stock">
-            <bdi>COMMIT</bdi>
+            <En>COMMIT</En>
           </span>
         </header>
         <ol className="grid">
@@ -73,10 +75,14 @@ export function Decisions() {
                 <bdi>{i + 1}</bdi>
               </span>
               <div className="grid gap-1">
-                <p className="text-lead font-semibold">{b.t}</p>
-                <p className="text-body text-steel">{b.d}</p>
+                <p className="text-lead font-semibold">
+                  <Iso>{b.t}</Iso>
+                </p>
+                <p className="text-body text-steel">
+                  <Iso>{b.d}</Iso>
+                </p>
                 <p className="label-mono normal-case tracking-normal">
-                  <bdi>{b.en}</bdi>
+                  <En>{b.en}</En>
                 </p>
               </div>
             </li>
@@ -90,7 +96,7 @@ export function Decisions() {
             5 קלישאות שאנחנו נמנעים מהן
           </h3>
           <span className="label-mono text-fault">
-            <bdi>REJECT</bdi>
+            <En>REJECT</En>
           </span>
         </header>
         <ol className="grid">
@@ -105,9 +111,11 @@ export function Decisions() {
                 <p className="text-lead font-semibold">
                   <span className="line-through decoration-fault decoration-2">{a.t}</span>
                 </p>
-                <p className="text-body text-steel">{a.d}</p>
+                <p className="text-body text-steel">
+                  <Iso>{a.d}</Iso>
+                </p>
                 <p className="label-mono normal-case tracking-normal">
-                  <bdi>{a.en}</bdi>
+                  <En>{a.en}</En>
                 </p>
               </div>
             </li>

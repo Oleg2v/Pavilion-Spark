@@ -1,6 +1,7 @@
 import { contrast, grade } from "@/lib/contrast"
 import { CORE, DERIVED, INKS, PROPORTION, SURFACE_HEX, type Swatch } from "@/lib/design-tokens"
 import { cn } from "@/lib/utils"
+import { En, Iso } from "@/components/spark/text"
 
 const HEX: Record<string, string> = Object.fromEntries([...CORE, ...DERIVED, ...INKS].map((s) => [s.token, s.hex]))
 
@@ -45,10 +46,12 @@ function SwatchCard({ s, big = false }: { s: Swatch; big?: boolean }) {
         <div className="flex items-baseline justify-between gap-2">
           <h3 className="text-lead font-semibold">{s.he}</h3>
           <span className="label-mono">
-            <bdi>{s.en}</bdi>
+            <En>{s.en}</En>
           </span>
         </div>
-        <p className="text-caption text-steel">{s.role}</p>
+        <p className="text-caption text-steel">
+          <Iso>{s.role}</Iso>
+        </p>
         <div className="mt-auto grid gap-1 border-t border-line pt-3">
           {s.surface ? (
             <>
@@ -106,7 +109,7 @@ export function Palette() {
           })}
         </ul>
         <figcaption className="max-w-[64ch] text-body text-steel">
-          <strong className="font-semibold text-paper">הצהוב מוקצב: כ-1.5% מהמסך.</strong> פעולה ראשית אחת, טבעת הפוקוס,
+          <strong className="font-semibold text-paper">הצהוב מוקצב: כ-<bdi>1.5%</bdi> מהמסך.</strong> פעולה ראשית אחת, טבעת הפוקוס,
           והלוחית. בחירה = ציאן; פילטר פעיל = היפוך לנייר. כשצהוב מופיע — הוא אומר ״עשו את זה״.
         </figcaption>
       </figure>
@@ -114,7 +117,7 @@ export function Palette() {
       {/* core */}
       <div className="grid gap-4">
         <h3 className="label-mono">
-          <bdi>CORE · 8 · FROM THE BRIEF</bdi>
+          <En>CORE · 8 · FROM THE BRIEF</En>
         </h3>
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {CORE.map((s) => (
@@ -127,7 +130,7 @@ export function Palette() {
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="grid content-start gap-4">
           <h3 className="label-mono">
-            <bdi>DERIVED · CONTRAST-TUNED</bdi>
+            <En>DERIVED · CONTRAST-TUNED</En>
           </h3>
           <ul className="grid gap-px overflow-hidden rounded-md border border-line bg-line">
             {DERIVED.map((s) => (
@@ -135,9 +138,11 @@ export function Palette() {
                 <span aria-hidden className="size-10 rounded-sm border border-line-strong" style={{ backgroundColor: s.hex }} />
                 <span className="grid">
                   <span className="text-body font-medium">
-                    {s.he} <span className="label-mono ms-2"><bdi>{s.en}</bdi></span>
+                    {s.he} <span className="label-mono ms-2"><En>{s.en}</En></span>
                   </span>
-                  <span className="text-caption text-steel">{s.role}</span>
+                  <span className="text-caption text-steel">
+                    <Iso>{s.role}</Iso>
+                  </span>
                 </span>
                 <span className="grid justify-items-end gap-1">
                   <bdi className="font-mono text-caption text-paper">{s.hex}</bdi>
@@ -155,11 +160,11 @@ export function Palette() {
         </div>
         <div className="grid content-start gap-4">
           <h3 className="label-mono">
-            <bdi>INKS · FOR PAPER DOCUMENTS</bdi>
+            <En>INKS · FOR PAPER DOCUMENTS</En>
           </h3>
-          <div className="surface-paper grid gap-4 rounded-md bg-grid p-4 shadow-paper">
+          <div className="surface-paper grid gap-4 rounded-md p-4 shadow-paper">
             <p className="text-caption">
-              משטחי נייר שמורים למסמכים: חשבונית, מחירון, דף חשבון. אותם גוונים — כהים יותר, כדי לעבור 4.5:1.
+              משטחי נייר שמורים למסמכים: חשבונית, מחירון, דף חשבון. אותם גוונים — כהים יותר, כדי לעבור <bdi>4.5:1</bdi>.
             </p>
             <ul className="grid grid-cols-2 gap-3">
               {INKS.map((s) => (

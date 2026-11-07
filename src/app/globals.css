@@ -102,22 +102,28 @@
   --default-transition-duration: 180ms;
   --default-transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 
+  /* Compositor-only (transform/opacity) so loops never force layout. */
   --animate-fuse: fuse 1100ms cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  --animate-fuse-rtl: fuse-rtl 1100ms cubic-bezier(0.65, 0, 0.35, 1) infinite;
   --animate-blink: blink 1600ms cubic-bezier(0.65, 0, 0.35, 1) infinite;
   --animate-shimmer: shimmer 1400ms linear infinite;
 
+  /* the fuse is a 40%-wide bar sweeping from inline-start to inline-end */
   @keyframes fuse {
-    0% { inset-inline-start: 0; inline-size: 0; }
-    50% { inset-inline-start: 0; inline-size: 100%; }
-    100% { inset-inline-start: 100%; inline-size: 0; }
+    from { transform: translateX(-100%); }
+    to { transform: translateX(250%); }
+  }
+  @keyframes fuse-rtl {
+    from { transform: translateX(100%); }
+    to { transform: translateX(-250%); }
   }
   @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.35; }
   }
   @keyframes shimmer {
-    from { background-position: 100% 0; }
-    to { background-position: -100% 0; }
+    from { transform: translateX(100%); }
+    to { transform: translateX(-100%); }
   }
 }
 
@@ -245,12 +251,19 @@
   }
 }
 
-/* Skeleton shimmer for loading states */
+/* Skeleton shimmer for loading states: a highlight layer moved by transform */
 @utility skeleton {
-  background: linear-gradient(90deg, var(--color-panel) 0%, var(--color-panel-2) 50%, var(--color-panel) 100%);
-  background-size: 200% 100%;
-  animation: var(--animate-shimmer);
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-panel);
   border-radius: var(--radius-xs);
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, var(--color-panel-2) 50%, transparent 100%);
+    animation: var(--animate-shimmer);
+  }
 }
 
 /* ── Base ──────────────────────────────────────────────────────────────── */

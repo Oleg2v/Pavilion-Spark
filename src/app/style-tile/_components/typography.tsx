@@ -2,13 +2,14 @@ import { TYPE_SCALE } from "@/lib/design-tokens"
 import { cn } from "@/lib/utils"
 import { Price } from "@/components/spark/price"
 import { LivePx } from "./live-px"
+import { En, Iso } from "@/components/spark/text"
 
 const FAMILIES = [
   {
     cls: "font-sans",
     name: "IBM Plex Sans Hebrew",
     role: "ממשק — כל טקסט רץ, תוויות, שדות",
-    weights: "300 · 400 · 500 · 600 · 700",
+    weights: "400 · 500 · 600",
     glyph: "אבג",
     sample: "פנס ראשי ימני לטויוטה קורולה 2022, LED, עם מנוע כיוונון.",
   },
@@ -16,7 +17,7 @@ const FAMILIES = [
     cls: "font-display font-bold",
     name: "Karantina",
     role: "כותרות ענק ומספרים — רק מ-40px ומעלה",
-    weights: "300 · 400 · 700",
+    weights: "700",
     glyph: "ספרק",
     sample: "טויוטה · קורולה הייבריד · 2022",
   },
@@ -62,9 +63,11 @@ export function Typography() {
             </span>
             <div className="grid gap-1">
               <h3 className="text-lead font-semibold">
-                <bdi>{f.name}</bdi>
+                <En>{f.name}</En>
               </h3>
-              <p className="text-caption text-steel">{f.role}</p>
+              <p className="text-caption text-steel">
+                <Iso>{f.role}</Iso>
+              </p>
               <p className="font-mono text-micro text-fog">
                 <bdi>{f.weights}</bdi>
               </p>
@@ -87,9 +90,11 @@ export function Typography() {
       <div className="grid gap-4">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h3 className="label-mono">
-            <bdi>FLUID SCALE · 9 STEPS · 390 → 1440 PX</bdi>
+            <En>FLUID SCALE · 9 STEPS · 390 → 1440 PX</En>
           </h3>
-          <p className="text-caption text-steel">שנו את רוחב החלון — ״now״ מתעדכן מ-clamp() חי.</p>
+          <p className="text-caption text-steel">
+            שנו את רוחב החלון — ״<En>now</En>״ מתעדכן מ-<En className="font-mono">clamp()</En> חי.
+          </p>
         </div>
         <ol className="grid overflow-hidden rounded-md border border-line">
           {TYPE_SCALE.map((t) => (
@@ -99,7 +104,7 @@ export function Typography() {
             >
               <span className="flex items-baseline gap-3 md:block">
                 <bdi className="font-mono text-caption text-cyan tabular-nums">{String(t.step).padStart(2, "0")}</bdi>
-                <bdi className="font-mono text-micro text-steel md:mt-1 md:block">{t.token}</bdi>
+                <En className="font-mono text-micro text-steel md:mt-1 md:block">{t.token}</En>
               </span>
               <span
                 id={`ts-${t.token}`}
@@ -111,23 +116,27 @@ export function Typography() {
                 )}
                 style={{ fontWeight: t.weight }}
               >
-                {t.family === "mono" ? <bdi>{t.sample}</bdi> : t.token === "mega" ? <Price value={389} display /> : t.sample}
+                {t.family === "mono" ? <En>{t.sample}</En> : t.token === "mega" ? <Price value={389} display /> : t.sample}
               </span>
               <span className="grid gap-1 md:justify-items-end md:text-end">
                 <span className="flex items-center gap-3">
-                  <bdi className="font-mono text-micro text-paper">
+                  <bdi lang="en" className="font-mono text-micro text-paper">
                     {t.min}→{t.max}px · lh {t.leading}
                   </bdi>
                   <LivePx targetId={`ts-${t.token}`} />
                 </span>
-                <span className="text-caption text-steel">{t.use}</span>
+                <span className="text-caption text-steel">
+                  <Iso>{t.use}</Iso>
+                </span>
               </span>
             </li>
           ))}
         </ol>
         <details className="group rounded-md border border-line bg-panel">
           <summary className="flex h-12 cursor-pointer list-none items-center justify-between gap-4 rounded-md px-4 text-caption font-medium text-paper hover:bg-panel-2">
-            <span>הצג את ביטויי ה-clamp()</span>
+            <span>
+              הצג את ביטויי ה-<En className="font-mono">clamp()</En>
+            </span>
             <span aria-hidden className="font-mono text-micro text-steel transition-transform duration-fast group-open:rotate-45">
               +
             </span>
@@ -142,8 +151,12 @@ export function Typography() {
         {RULES.map(([a, b], i) => (
           <li key={i} className="grid content-start gap-2 bg-graphite p-4">
             <bdi className="font-mono text-micro text-cyan">R{String(i + 1).padStart(2, "0")}</bdi>
-            <p className="text-body font-medium text-paper">{a}</p>
-            <p className="text-caption text-steel">{b}</p>
+            <p className="text-body font-medium text-paper">
+              <Iso>{a}</Iso>
+            </p>
+            <p className="text-caption text-steel">
+              <Iso>{b}</Iso>
+            </p>
           </li>
         ))}
       </ul>

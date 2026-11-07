@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { RADII, SHADOWS, SPACING } from "@/lib/design-tokens"
+import { En, Iso } from "@/components/spark/text"
 
 export function Space() {
   return (
@@ -28,12 +29,14 @@ export function Space() {
       <div className="grid content-start gap-4 lg:col-span-5">
         <div className="rounded-md border border-line bg-panel p-6">
           <h3 className="label-mono">
-            <bdi>LAYOUT</bdi>
+            <En>LAYOUT</En>
           </h3>
           <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 text-body">
             <dt className="text-steel">עמודות</dt>
             <dd>
-              <bdi className="font-mono">4 / 8 / 12</bdi> <span className="text-caption text-steel">(390 / 768 / 1024+)</span>
+              <bdi className="font-mono">4 / 8 / 12</bdi> <span className="text-caption text-steel">
+                (<bdi>390 / 768 / 1024+</bdi>)
+              </span>
             </dd>
             <dt className="text-steel">שוליים</dt>
             <dd>
@@ -45,7 +48,9 @@ export function Space() {
             </dd>
             <dt className="text-steel">מטרת מגע</dt>
             <dd>
-              <bdi className="font-mono">48px</bdi> <span className="text-caption text-steel">פעולה ראשית בטלפון · 40px בדסקטופ</span>
+              <bdi className="font-mono">48px</bdi> <span className="text-caption text-steel">
+                <Iso>פעולה ראשית בטלפון · 40px בדסקטופ</Iso>
+              </span>
             </dd>
             <dt className="text-steel">שורת טבלה</dt>
             <dd>
@@ -55,7 +60,7 @@ export function Space() {
         </div>
         <div className="rounded-md border border-line bg-panel p-6">
           <h3 className="label-mono">
-            <bdi>RULE</bdi>
+            <En>RULE</En>
           </h3>
           <p className="mt-3 text-body">
             כל מרווח, גובה ורוחב הוא כפולה של <bdi className="font-mono text-cyan">4px</bdi>. חצאי צעדים (<bdi className="font-mono">p-0.5</bdi>,{" "}
@@ -73,7 +78,7 @@ export function FormElevation() {
     <div className="grid gap-12">
       <div className="grid gap-4">
         <h3 className="label-mono">
-          <bdi>RADII · SMALL ON PURPOSE — PRECISION, NOT PILLS</bdi>
+          <En>RADII · SMALL ON PURPOSE — PRECISION, NOT PILLS</En>
         </h3>
         <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {RADII.map((r) => (
@@ -85,7 +90,9 @@ export function FormElevation() {
                 <bdi className="font-mono text-caption text-paper">radius-{r.token}</bdi>
                 <bdi className="font-mono text-caption text-cyan">{r.px}px</bdi>
               </span>
-              <span className="text-caption text-steel">{r.use}</span>
+              <span className="text-caption text-steel">
+                <Iso>{r.use}</Iso>
+              </span>
             </li>
           ))}
         </ul>
@@ -94,7 +101,7 @@ export function FormElevation() {
 
       <div className="grid gap-4">
         <h3 className="label-mono">
-          <bdi>ELEVATION · ON GRAPHITE, DEPTH COMES FROM LINES</bdi>
+          <En>ELEVATION · ON GRAPHITE, DEPTH COMES FROM LINES</En>
         </h3>
         <ul className="grid gap-6 rounded-md border border-line bg-grid p-6 sm:grid-cols-2 lg:grid-cols-5 lg:p-8">
           {SHADOWS.map((s) => (
@@ -103,7 +110,9 @@ export function FormElevation() {
               <span className="flex items-baseline justify-between">
                 <bdi className="font-mono text-caption text-paper">shadow-{s.token}</bdi>
               </span>
-              <span className="text-caption text-steel">{s.use}</span>
+              <span className="text-caption text-steel">
+                <Iso>{s.use}</Iso>
+              </span>
             </li>
           ))}
           <li className="grid gap-3">
@@ -120,7 +129,10 @@ export function FormElevation() {
             <span>
               <bdi className="font-mono text-caption text-paper">focus-ring</bdi>
             </span>
-            <span className="text-caption text-steel">2px צהוב, היסט 2px. גם ב-High Contrast.</span>
+            <span className="text-caption text-steel">
+              <Iso>2px צהוב, היסט 2px. גם ב-</Iso>
+              <En>High Contrast</En>.
+            </span>
           </li>
         </ul>
       </div>

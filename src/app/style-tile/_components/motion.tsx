@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { fireSpark } from "@/components/spark/spark-trail"
 import { DURATIONS, EASINGS } from "@/lib/design-tokens"
 import { prefersReducedMotion } from "@/lib/easing"
+import { En, Iso } from "@/components/spark/text"
 import { cn } from "@/lib/utils"
 
 const bezierCss = (b: readonly number[]) => `cubic-bezier(${b.join(", ")})`
@@ -44,7 +45,7 @@ function DurationRuler() {
     <div className="grid gap-4">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h3 className="label-mono">
-          <bdi>DURATIONS · UI ≤ 260 MS · TWO SIGNATURES</bdi>
+          <En>DURATIONS · UI ≤ 260 MS · TWO SIGNATURES</En>
         </h3>
         <Button variant="secondary" size="sm" onClick={playAll}>
           <Play strokeWidth={1.75} aria-hidden />
@@ -59,10 +60,12 @@ function DurationRuler() {
           >
             <span className="grid gap-1">
               <span className="flex items-baseline gap-3">
-                <bdi className="font-mono text-caption text-paper">dur-{d.token}</bdi>
+                <En className="font-mono text-caption text-paper">dur-{d.token}</En>
                 <bdi className="font-mono text-micro text-cyan">{d.ms}ms</bdi>
               </span>
-              <span className="text-caption text-steel">{d.use}</span>
+              <span className="text-caption text-steel">
+                <Iso>{d.use}</Iso>
+              </span>
             </span>
             <div
               ref={(el) => {
@@ -110,11 +113,12 @@ function EasingCurve({ token, bezier, use }: { token: string; bezier: readonly n
   const [x1, y1, x2, y2] = bezier
   const P = (x: number, y: number) => `${8 + x * 84} ${92 - y * 84}`
   const play = () => {
-    const ms = 900
-    if (prefersReducedMotion()) return
+    // Reduced motion: jump straight to the end state, as the note on the sheet promises.
+    const ms = prefersReducedMotion() ? 0 : 900
     xDot.current?.animate([{ transform: "translateX(0)" }, { transform: "translateX(84px)" }], { duration: ms, easing: "linear", fill: "forwards" })
     yDot.current?.animate([{ transform: "translateY(0)" }, { transform: "translateY(-84px)" }], { duration: ms, easing: bezierCss(bezier), fill: "forwards" })
-    bar.current?.animate([{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }], { duration: ms, easing: bezierCss(bezier), fill: "forwards" })
+    // Tailwind v4 `scale-x-0` sets the CSS `scale` property, so animate that (not transform).
+    bar.current?.animate([{ scale: "0 1" }, { scale: "1 1" }], { duration: ms, easing: bezierCss(bezier), fill: "forwards" })
   }
   return (
     <li className="grid min-w-0 gap-3 rounded-md border border-line bg-panel p-4">
@@ -143,14 +147,18 @@ function EasingCurve({ token, bezier, use }: { token: string; bezier: readonly n
         </span>
       </button>
       <span aria-hidden className="block h-1 overflow-hidden rounded-full bg-line">
-        <span ref={bar} className="block h-full origin-right scale-x-0 bg-cyan rtl:origin-right ltr:origin-left" />
+        <span ref={bar} className="block h-full scale-x-0 bg-cyan rtl:origin-right ltr:origin-left" />
       </span>
       <div className="grid gap-1">
-        <bdi className="font-mono text-caption text-paper">ease-{token}</bdi>
+        <span>
+          <En className="font-mono text-caption text-paper">ease-{token}</En>
+        </span>
         <span dir="ltr" className="text-end font-mono text-micro text-steel">
           {bezierCss(bezier)}
         </span>
-        <p className="text-caption text-steel">{use}</p>
+        <p className="text-caption text-steel">
+          <Iso>{use}</Iso>
+        </p>
       </div>
     </li>
   )
@@ -166,6 +174,7 @@ function SpringAndSpark() {
     if (!btn.current || !cart.current) return
     fireSpark(btn.current, cart.current, () => {
       setCount((c) => c + 1)
+      if (prefersReducedMotion()) return
       badge.current?.animate([{ transform: "scale(1)" }, { transform: "scale(1.35)" }, { transform: "scale(1)" }], {
         duration: 260,
         easing: "cubic-bezier(0.16, 1, 0.3, 1)",
@@ -185,11 +194,11 @@ function SpringAndSpark() {
           חתימה: הניצוץ של ״הוסף לסל״
         </h3>
         <p className="max-w-[56ch] text-body text-steel">
-          <bdi className="font-mono text-paper">dur-spark 400ms · ease-zap</bdi> — שובל חלקיקים על canvas מהכפתור אל הסל, ואז
-          ״קפיצה״ של התג ב-<bdi className="font-mono text-paper">ease-snap</bdi>. בתנועה מופחתת: בלי חלקיקים, רק עדכון המונה.
+          <En className="font-mono text-paper">dur-spark 400ms · ease-zap</En> — שובל חלקיקים על canvas מהכפתור אל הסל, ואז
+          ״קפיצה״ של התג ב-<En className="font-mono text-paper">ease-snap</En>. בתנועה מופחתת: בלי חלקיקים, רק עדכון המונה.
         </p>
       </div>
-      <div className="flex items-center justify-between gap-12 rounded-md border border-line bg-graphite bg-grid p-6 lg:justify-end">
+      <div className="flex flex-wrap items-center justify-between gap-6 rounded-md border border-line bg-graphite bg-grid p-4 sm:gap-12 sm:p-6 lg:justify-end">
         <Button ref={btn} onClick={add} size="lg">
           <ShoppingCart aria-hidden strokeWidth={1.75} />
           הוסף לסל
@@ -221,7 +230,7 @@ const RULES = [
 export function Motion() {
   const reduced = useReduced()
   return (
-    <div className="grid gap-12">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-12">
       {reduced ? (
         <p className="rounded-md border border-low/30 bg-low/12 p-4 text-body text-low" role="status">
           המערכת שלכם מבקשת תנועה מופחתת — ההדגמות כאן יקפצו ישר למצב הסופי, בדיוק כמו באפליקציה.
@@ -230,7 +239,7 @@ export function Motion() {
       <DurationRuler />
       <div className="grid gap-4">
         <h3 className="label-mono">
-          <bdi>EASINGS · HOVER OR TAP A CURVE</bdi>
+          <En>EASINGS · HOVER OR TAP A CURVE</En>
         </h3>
         <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
           {EASINGS.map((e) => (
@@ -238,7 +247,7 @@ export function Motion() {
           ))}
         </ul>
         <p className="text-caption text-steel">
-          ועוד <bdi className="font-mono text-paper">ease-spring</bdi> — ‎<bdi className="font-mono">linear()</bdi>‎ של קפיץ ζ 0.68: חריגה של 5%, אף פעם לא
+          ועוד <En className="font-mono text-paper">ease-spring</En> — ‎<bdi className="font-mono">linear()</bdi>‎ של קפיץ ζ 0.68: חריגה של 5%, אף פעם לא
           ״קופצני״. לתגי סל וצ׳יפים.
         </p>
       </div>
@@ -247,8 +256,12 @@ export function Motion() {
         {RULES.map(([a, b], i) => (
           <li key={i} className="grid content-start gap-2 bg-graphite p-4">
             <bdi className="font-mono text-micro text-cyan">M{String(i + 1).padStart(2, "0")}</bdi>
-            <p className="text-body font-medium">{a}</p>
-            <p className="text-caption text-steel">{b}</p>
+            <p className="text-body font-medium">
+              <Iso>{a}</Iso>
+            </p>
+            <p className="text-caption text-steel">
+              <Iso>{b}</Iso>
+            </p>
           </li>
         ))}
       </ul>

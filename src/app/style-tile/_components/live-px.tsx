@@ -19,6 +19,8 @@ export function LivePx({ targetId }: { targetId: string }) {
     return () => window.removeEventListener("resize", onResize)
   }, [targetId])
   return (
-    <bdi className="font-mono text-micro text-cyan">now {px}px</bdi>
+    <bdi lang="en" className="font-mono text-micro text-cyan">
+      now {px}px
+    </bdi>
   )
 }

@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react"
 import { Grid3x3, ShoppingCart } from "lucide-react"
+import { En } from "@/components/spark/text"
+import { prefersReducedMotion } from "@/lib/easing"
 import { cn } from "@/lib/utils"
 import { SHEETS } from "./sheet"
 
@@ -19,11 +21,13 @@ export function TileHeader() {
   const [active, setActive] = useState<string>("")
   const [count, setCount] = useState(0)
   const badge = useRef<HTMLSpanElement>(null)
+  const nav = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const onAdd = (e: Event) => {
       const qty = (e as CustomEvent<{ qty: number }>).detail?.qty ?? 1
       setCount((c) => c + qty)
+      if (prefersReducedMotion()) return
       badge.current?.animate([{ transform: "scale(1)" }, { transform: "scale(1.35)" }, { transform: "scale(1)" }], {
         duration: 260,
         easing: "cubic-bezier(0.16, 1, 0.3, 1)",
@@ -33,18 +37,29 @@ export function TileHeader() {
     return () => window.removeEventListener("spark:cart-add", onAdd)
   }, [])
 
+  // Scroll-spy. The hero (#top) is observed too, so going back up clears
+  // aria-current instead of leaving the last sheet marked.
   useEffect(() => {
-    const els = SHEETS.map((s) => document.getElementById(s.id)).filter(Boolean) as HTMLElement[]
+    const ids = ["top", ...SHEETS.map((s) => s.id)]
+    const els = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
     const io = new IntersectionObserver(
       (entries) => {
         const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
-        if (vis[0]) setActive(vis[0].target.id)
+        if (vis[0]) setActive(vis[0].target.id === "top" ? "" : vis[0].target.id)
       },
       { rootMargin: "-30% 0px -60% 0px" },
     )
     els.forEach((el) => io.observe(el))
     return () => io.disconnect()
   }, [])
+
+  // Keep the active sheet link visible inside the horizontally scrolling nav.
+  useEffect(() => {
+    if (!active) return
+    nav.current
+      ?.querySelector<HTMLAnchorElement>(`a[href="#${active}"]`)
+      ?.scrollIntoView({ block: "nearest", inline: "nearest" })
+  }, [active])
 
   return (
     <>
@@ -55,24 +70,30 @@ export function TileHeader() {
             <span className="flex items-baseline gap-2">
               <span className="text-body font-semibold text-paper">ספרק</span>
               <span className="label-mono hidden sm:inline">
-                <bdi>Style Tile · Rev A</bdi>
+                <En>Style Tile · Rev A</En>
               </span>
             </span>
           </a>
 
-          <nav aria-label="גיליונות" className="-me-2 min-w-0 flex-1 overflow-x-auto [scrollbar-width:none]">
-            <ol className="ms-auto flex w-max items-center gap-1">
+          <nav
+            ref={nav}
+            aria-label="גיליונות"
+            className="-me-2 min-w-0 flex-1 overflow-x-auto [mask-image:linear-gradient(to_right,transparent,#000_16px)] [scrollbar-width:none]"
+          >
+            <ol className="ms-auto flex w-max items-center gap-1 pe-4">
               {SHEETS.map((s) => (
                 <li key={s.id}>
                   <a
                     href={`#${s.id}`}
                     aria-current={active === s.id ? "location" : undefined}
-                    className="flex h-8 items-center gap-2 rounded-sm px-2 text-caption whitespace-nowrap text-steel transition-colors duration-fast hover:bg-panel hover:text-paper aria-[current=location]:text-paper"
+                    onFocus={(e) => e.currentTarget.scrollIntoView({ block: "nearest", inline: "nearest" })}
+                    // relative: keeps the sr-only label inside the scroll strip (it widened the page at 320px)
+                    className="relative flex h-8 items-center gap-2 rounded-sm px-2 text-caption whitespace-nowrap text-steel transition-colors duration-fast hover:bg-panel hover:text-paper focus-visible:-outline-offset-2 aria-[current=location]:text-paper"
                   >
                     <span className="font-mono text-micro text-fog tabular-nums [[aria-current=location]_&]:text-cyan">
                       <bdi>{String(s.n).padStart(2, "0")}</bdi>
                     </span>
-                    <span className="hidden lg:inline">{s.he}</span>
+                    <span className="sr-only xl:not-sr-only">{s.he}</span>
                   </a>
                 </li>
               ))}
@@ -83,7 +104,7 @@ export function TileHeader() {
             type="button"
             aria-pressed={grid}
             onClick={() => setGrid((g) => !g)}
-            className="flex h-8 shrink-0 items-center gap-2 rounded-sm border border-line-strong px-2 text-caption text-steel transition-colors duration-fast hover:border-edge hover:text-paper aria-pressed:border-cyan/60 aria-pressed:text-cyan"
+            className="relative flex h-8 shrink-0 items-center gap-2 rounded-sm border border-line-strong px-2 text-caption text-steel transition-colors duration-fast hover:border-edge hover:text-paper aria-pressed:border-cyan/60 aria-pressed:text-cyan"
           >
             <Grid3x3 className="size-4" strokeWidth={1.5} aria-hidden />
             <span className="hidden sm:inline">רשת 4px</span>

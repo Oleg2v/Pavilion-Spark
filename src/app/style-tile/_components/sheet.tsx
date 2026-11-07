@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils"
+import { En, Iso } from "@/components/spark/text"
 
 export const SHEETS = [
   { id: "palette", n: 1, he: "צבע", en: "Colour" },
@@ -30,7 +31,7 @@ export function Sheet({
 }) {
   const s = SHEETS.find((x) => x.id === id)!
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className={cn("scroll-mt-20", className)}>
+    <section id={id} aria-labelledby={`${id}-title`} className={className}>
       <header className="grid grid-cols-[auto_1fr] border-y border-line sm:grid-cols-[auto_1fr_auto]">
         <div className="grid place-items-center border-e border-line px-4 py-4 sm:px-6">
           <span className="font-mono text-title font-medium text-cyan tabular-nums">
@@ -42,22 +43,24 @@ export function Sheet({
             {s.he}
           </h2>
           <p className="label-mono">
-            <bdi>{s.en}</bdi>
+            <En>{s.en}</En>
           </p>
         </div>
         <div className="hidden flex-col justify-center gap-1 border-s border-line px-6 py-4 text-end sm:flex">
           <span className="label-mono">
-            <bdi>
+            <En>
               SHEET {pad(s.n)}/{pad(SHEETS.length)}
-            </bdi>
+            </En>
           </span>
           <span className="label-mono">
-            <bdi>REV A · SCALE 1:1</bdi>
+            <En>REV A · SCALE 1:1</En>
           </span>
         </div>
       </header>
       {lede ? (
-        <p className="max-w-[64ch] px-4 pt-8 text-lead text-steel sm:px-6 lg:px-10">{lede}</p>
+        <p className="max-w-[64ch] px-4 pt-8 text-lead text-steel sm:px-6 lg:px-10">
+          {typeof lede === "string" ? <Iso>{lede}</Iso> : lede}
+        </p>
       ) : null}
       <div className="px-4 pt-8 pb-16 sm:px-6 lg:px-10 lg:pb-24">{children}</div>
     </section>
@@ -69,7 +72,7 @@ export function SpecLabel({ code, children, className }: { code: string; childre
   return (
     <div className={cn("flex items-baseline gap-3", className)}>
       <span className="label-mono text-cyan">
-        <bdi>{code}</bdi>
+        <En>{code}</En>
       </span>
       <h3 className="text-title font-semibold text-paper">{children}</h3>
     </div>

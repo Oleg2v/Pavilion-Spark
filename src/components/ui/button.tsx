@@ -97,7 +97,7 @@ function Button({
             <span
               aria-hidden
               className={cn(
-                "pointer-events-none absolute bottom-0 block h-0.5 animate-fuse",
+                "pointer-events-none absolute start-0 bottom-0 block h-0.5 w-2/5 animate-fuse rtl:animate-fuse-rtl",
                 variant === "primary" ? "bg-graphite" : "bg-plate",
               )}
             />
