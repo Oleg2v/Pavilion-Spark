@@ -28,7 +28,9 @@ export function ToastCard({ tone, title, description, action, onDismiss, classNa
   return (
     <div
       className={cn(
-        "relative flex w-full items-start gap-3 rounded-md border border-line-strong bg-panel p-4 text-paper shadow-overlay",
+        // @container: the decorative icon box drops out only when the toast is
+        // too narrow for it (very large browser fonts on small phones)
+        "@container relative flex w-full items-start gap-3 rounded-md border border-line-strong bg-panel p-4 text-paper shadow-overlay",
         className,
       )}
     >
@@ -36,7 +38,7 @@ export function ToastCard({ tone, title, description, action, onDismiss, classNa
       <span
         aria-hidden
         className={cn(
-          "grid size-10 shrink-0 place-items-center rounded-sm border border-line bg-graphite bg-grid [&>svg]:size-5",
+          "hidden size-10 shrink-0 place-items-center rounded-sm border border-line bg-graphite bg-grid @min-[13rem]:grid [&>svg]:size-5",
           t.iconColor,
         )}
       >
@@ -44,8 +46,7 @@ export function ToastCard({ tone, title, description, action, onDismiss, classNa
       </span>
       <div className="min-w-0 flex-1">
         <p className="text-body leading-6 font-semibold">{title}</p>
-        {/* codes may break at their spaces here when text is very large (narrow toast) */}
-        {description ? <p className="mt-1 text-caption text-steel [&_bdi]:whitespace-normal">{description}</p> : null}
+        {description ? <p className="mt-1 text-caption text-steel">{description}</p> : null}
         {action ? (
           <button
             type="button"

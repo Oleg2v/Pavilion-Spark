@@ -300,8 +300,10 @@
   /* Keep anchor targets and focused controls clear of the 56px sticky header.
      Set on the targets, not as html scroll-padding: Chrome applies
      scroll-padding to focus inside the sticky header too and jumps the page. */
-  main :where(section[id], a, button, input, select, textarea, summary, [tabindex]) {
-    scroll-margin-block-start: 80px;
+  /* 5rem = the 3.5rem header + 1.5rem air, so it scales with the browser font. */
+  main,
+  main :where([id], a, button, input, select, textarea, summary, [tabindex]) {
+    scroll-margin-block-start: 5rem;
   }
 
   ::selection {

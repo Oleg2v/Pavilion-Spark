@@ -84,7 +84,7 @@ function SwatchCard({ s, big = false }: { s: Swatch; big?: boolean }) {
 
 export function Palette() {
   return (
-    <div className="grid gap-12">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-12">
       {/* proportion */}
       <figure className="grid gap-4">
         <div className="flex h-16 overflow-hidden rounded-md border border-line" aria-hidden>
@@ -166,7 +166,7 @@ export function Palette() {
             <p className="text-caption">
               משטחי נייר שמורים למסמכים: חשבונית, מחירון, דף חשבון. אותם גוונים — כהים יותר, כדי לעבור <bdi>4.5:1</bdi>.
             </p>
-            <ul className="grid grid-cols-[repeat(auto-fit,minmax(10rem,1fr))] gap-3">
+            <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {INKS.map((s) => (
                 <li key={s.token} className="flex items-center gap-3">
                   <span aria-hidden className="size-8 shrink-0 rounded-sm" style={{ backgroundColor: s.hex }} />

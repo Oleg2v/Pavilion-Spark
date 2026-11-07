@@ -24,7 +24,7 @@ const PARTS: { kind: PartKind; he: string; code: string }[] = [
 
 export function Motif() {
   return (
-    <div className="grid gap-12">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-12">
       <div className="grid gap-6 lg:grid-cols-12">
         {/* callout composition */}
         <figure className="relative overflow-hidden rounded-md border border-line bg-graphite bg-grid lg:col-span-8">

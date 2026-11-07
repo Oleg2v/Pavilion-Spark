@@ -21,9 +21,12 @@ export function SparkMark({ className }: { className?: string }) {
  * end-edge fade. element.scrollIntoView() would also scroll the document,
  * because the header link is sticky.
  */
-function revealInStrip(strip: HTMLElement, el: HTMLElement, pad = 32) {
+function revealInStrip(strip: HTMLElement, el: HTMLElement) {
   const s = strip.getBoundingClientRect()
   const r = el.getBoundingClientRect()
+  // 32px clear of the fade when there is room; never push a link out of a
+  // narrow strip (large browser fonts on phones).
+  const pad = Math.max(0, Math.min(32, (s.width - r.width) / 2))
   if (r.left < s.left + pad) strip.scrollBy({ left: r.left - s.left - pad })
   else if (r.right > s.right - pad) strip.scrollBy({ left: r.right - s.right + pad })
 }
@@ -75,11 +78,18 @@ export function TileHeader() {
     if (link) revealInStrip(strip, link)
   }, [active])
 
-  // Fade the end edge only while there is more nav toward the end.
+  // Fade the end edge only while the last link is (partly) hidden past it —
+  // not when merely the list's end padding overflows.
   useEffect(() => {
     const strip = nav.current
     if (!strip) return
-    const update = () => setMoreEnd(Math.abs(strip.scrollLeft) + strip.clientWidth < strip.scrollWidth - 1)
+    const update = () => {
+      const last = strip.querySelector<HTMLElement>("li:last-child a")
+      if (!last) return
+      const s = strip.getBoundingClientRect()
+      const r = last.getBoundingClientRect()
+      setMoreEnd(getComputedStyle(strip).direction === "rtl" ? r.left < s.left - 1 : r.right > s.right + 1)
+    }
     update()
     strip.addEventListener("scroll", update, { passive: true })
     const ro = new ResizeObserver(update)
@@ -95,13 +105,15 @@ export function TileHeader() {
     <>
       <header className="sticky top-0 z-40 border-b border-line bg-graphite/85 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-[1360px] items-center gap-4 px-4 sm:px-6 lg:px-10">
-          <a href="#top" className="flex shrink-0 items-center gap-3 rounded-sm" aria-label="ספרק — לראש העמוד">
+          {/* name = the visible text + a hidden purpose (label-in-name, WCAG 2.5.3) */}
+          <a href="#top" className="relative flex shrink-0 items-center gap-3 rounded-sm">
             <SparkMark />
             <span className="flex items-baseline gap-2">
               <span className="text-body font-semibold text-paper">ספרק</span>
               <span className="label-mono hidden sm:inline">
                 <En>Style Tile · Rev A</En>
               </span>
+              <span className="sr-only">— לראש העמוד</span>
             </span>
           </a>
 
@@ -119,7 +131,11 @@ export function TileHeader() {
                   <a
                     href={`#${s.id}`}
                     aria-current={active === s.id ? "location" : undefined}
-                    onFocus={(e) => nav.current && revealInStrip(nav.current, e.currentTarget)}
+                    onFocus={(e) => {
+                      // keyboard focus only: sliding the strip under a pointer would
+                      // move the link away before mouseup and lose the click
+                      if (nav.current && e.currentTarget.matches(":focus-visible")) revealInStrip(nav.current, e.currentTarget)
+                    }}
                     // relative: keeps the sr-only label inside the scroll strip (it widened the page at 320px)
                     className="relative flex h-8 items-center gap-2 rounded-sm px-2 text-caption whitespace-nowrap text-steel transition-colors duration-fast hover:bg-panel hover:text-paper focus-visible:-outline-offset-2 aria-[current=location]:text-paper"
                   >

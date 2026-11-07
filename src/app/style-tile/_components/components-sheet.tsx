@@ -243,7 +243,7 @@ function PartCard() {
           title: "נוסף לסל",
           description: (
             <>
-              פנס ראשי ימני · <bdi className="font-mono">TYC 20-1234-00</bdi> · <bdi>×1</bdi>
+              פנס ראשי ימני · <En>TYC</En> <bdi className="font-mono">20-1234-00</bdi> · <bdi>×1</bdi>
             </>
           ),
           action: { label: "לסל ←" },
@@ -550,7 +550,7 @@ function ToastSpec() {
           title="נוסף לסל"
           description={
             <>
-              פנס ראשי ימני · <bdi className="font-mono">TYC 20-1234-00</bdi> · <bdi>×1</bdi>
+              פנס ראשי ימני · <En>TYC</En> <bdi className="font-mono">20-1234-00</bdi> · <bdi>×1</bdi>
             </>
           }
           action={{ label: "לסל ←" }}

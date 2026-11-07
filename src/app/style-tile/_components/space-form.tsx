@@ -7,9 +7,18 @@ export function Space() {
     <div className="grid grid-cols-[minmax(0,1fr)] gap-12 lg:grid-cols-12 lg:gap-8">
       <ol className="grid content-start gap-2 [--k:1] sm:[--k:2] lg:col-span-7">
         {SPACING.map((n) => (
-          <li key={n} className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4">
-            <span>
-              <bdi className="font-mono text-caption text-paper">space-{n}</bdi>
+          // two columns, rem label track: every bar starts on one shared edge and
+          // the row still fits a 320px screen at large browser fonts
+          <li key={n} className="grid grid-cols-[6.5rem_minmax(0,1fr)] items-center gap-4">
+            <span className="grid">
+              <span>
+                <bdi className="font-mono text-caption text-paper">space-{n}</bdi>
+              </span>
+              <span>
+                <bdi className="font-mono text-micro text-steel">
+                  {n * 4}px · p-{n}
+                </bdi>
+              </span>
             </span>
             <span className="relative h-6">
               <span
@@ -17,11 +26,6 @@ export function Space() {
                 className="absolute inset-y-0 start-0 border-x border-cyan bg-cyan/15"
                 style={{ inlineSize: `calc(var(--k) * ${n * 4}px)`, maxInlineSize: "100%" }}
               />
-            </span>
-            <span className="text-end">
-              <bdi className="font-mono text-caption text-steel">
-                {n * 4}px · p-{n}
-              </bdi>
             </span>
           </li>
         ))}
@@ -77,12 +81,12 @@ export function Space() {
 
 export function FormElevation() {
   return (
-    <div className="grid gap-12">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-12">
       <div className="grid gap-4">
         <h3 className="label-mono">
           <En>RADII · SMALL ON PURPOSE — PRECISION, NOT PILLS</En>
         </h3>
-        <ul className="grid grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4 lg:grid-cols-4">
+        <ul className="grid grid-cols-1 gap-4 min-[22rem]:grid-cols-2 lg:grid-cols-4">
           {RADII.map((r) => (
             <li key={r.token} className="grid gap-3 rounded-md border border-line bg-panel p-4">
               <span className="grid h-24 place-items-center rounded-xs bg-graphite bg-grid">

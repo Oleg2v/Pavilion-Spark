@@ -54,7 +54,7 @@ const RULES = [
 
 export function Typography() {
   return (
-    <div className="grid gap-12">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-12">
       <ul className="grid gap-4 lg:grid-cols-3">
         {FAMILIES.map((f) => (
           <li key={f.name} className="flex flex-col gap-4 overflow-hidden rounded-md border border-line bg-panel p-6">
@@ -87,7 +87,7 @@ export function Typography() {
         ))}
       </ul>
 
-      <div className="grid gap-4">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-4">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h3 className="label-mono">
             <En>FLUID SCALE · 9 STEPS · 390 → 1440 PX</En>

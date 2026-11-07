@@ -19,18 +19,25 @@ export function En({ children, className }: { children: React.ReactNode; classNa
  * stays outside the isolate; letters/digits on either side (B2B, H7) are
  * not split.
  */
+// No lookbehind: Safari < 16.4 cannot parse it (the left-boundary check is done in code).
 const NUMERIC =
-  /(?<![A-Za-z\d])((?:[≥≤~×+−]\s?)?\d+(?:[.,:]\d+)*(?:\s?[–—\-→/×]\s?\d+(?:[.,:]\d+)*)*(?:\s?(?:ms|px|MS|PX|%|\+))?)(?![A-Za-z\d])/g
+  /(?:[≥≤~×+−]\s?)?\d+(?:[.,:]\d+)*(?:\s?[–—\-→/×]\s?\d+(?:[.,:]\d+)*)*(?:\s?(?:ms|px|MS|PX|%|\+))?(?![A-Za-z\d])/g
+const WORD_CHAR = /[A-Za-z\d]/
 
 /**
  * Wraps every numeric run of a Hebrew string in <bdi> (the style tile's rule
  * R03), so en-dash ranges and unit suffixes never reorder inside RTL text.
  */
 export function Iso({ children }: { children: string }) {
-  const parts = children.split(NUMERIC)
-  return (
-    <>
-      {parts.map((part, i) => (i % 2 === 1 ? <bdi key={i}>{part}</bdi> : <Fragment key={i}>{part}</Fragment>))}
-    </>
-  )
+  const out: React.ReactNode[] = []
+  let last = 0
+  for (const m of children.matchAll(NUMERIC)) {
+    const start = m.index ?? 0
+    if (start > 0 && WORD_CHAR.test(children[start - 1])) continue // inside a word: "H7", "B2B"
+    if (start > last) out.push(<Fragment key={`t${last}`}>{children.slice(last, start)}</Fragment>)
+    out.push(<bdi key={`n${start}`}>{m[0]}</bdi>)
+    last = start + m[0].length
+  }
+  if (last < children.length) out.push(<Fragment key={`t${last}`}>{children.slice(last)}</Fragment>)
+  return <>{out}</>
 }

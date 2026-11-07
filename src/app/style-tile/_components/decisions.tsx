@@ -58,7 +58,7 @@ const AVOID = [
 
 export function Decisions() {
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-2">
       <section aria-labelledby="bold-title" className="rounded-md border border-line bg-panel">
         <header className="flex items-baseline justify-between gap-4 border-b border-line px-6 py-4">
           <h3 id="bold-title" className="text-title font-semibold">
