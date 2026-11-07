@@ -141,7 +141,16 @@ export function Typography() {
               +
             </span>
           </summary>
-          <pre className="overflow-x-auto border-t border-line p-4 font-mono text-micro leading-6 text-steel" dir="ltr">
+          {/* scrolls sideways on phones: a named, focusable region so keyboards in every
+              browser can reach it (Safari does not focus scrollers), and [tabindex] picks
+              up the header scroll-margin */}
+          <pre
+            tabIndex={0}
+            role="region"
+            aria-label="ביטויי ה-clamp() של סקאלת הטקסט"
+            className="overflow-x-auto border-t border-line p-4 font-mono text-micro leading-6 text-steel focus-visible:-outline-offset-2"
+            dir="ltr"
+          >
             {TYPE_SCALE.map((t) => `--text-${t.token}: ${t.clamp};`).join("\n")}
           </pre>
         </details>

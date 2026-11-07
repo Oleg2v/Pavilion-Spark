@@ -24,7 +24,7 @@ const CONCEPT = [
 
 export function Hero() {
   return (
-    <section id="top" aria-labelledby="hero-title" className="relative overflow-hidden bg-grid">
+    <section id="hero" aria-labelledby="hero-title" className="relative overflow-hidden bg-grid">
       <div className="mx-auto grid max-w-[1360px] gap-12 px-4 pt-12 pb-16 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:px-10 lg:pt-16 lg:pb-24">
         <div className="lg:col-span-5">
           <p className="label-mono flex flex-wrap gap-x-4 gap-y-1">

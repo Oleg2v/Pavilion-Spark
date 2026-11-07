@@ -28,8 +28,11 @@ export function ToastCard({ tone, title, description, action, onDismiss, classNa
   return (
     <div
       className={cn(
-        // @container: the decorative icon box drops out only when the toast is
-        // too narrow for it (very large browser fonts on small phones)
+        // @container: the decorative icon box drops out only when the toast is too
+        // narrow to keep an 11-character code (SO-26-04187) whole beside it:
+        // icon + gaps + dismiss (5.5rem) + 11 mono characters at the largest
+        // caption size (5.8rem), rounded up to 11.5rem. Only phones with very
+        // large browser text.
         "@container relative flex w-full items-start gap-3 rounded-md border border-line-strong bg-panel p-4 text-paper shadow-overlay",
         className,
       )}
@@ -38,7 +41,7 @@ export function ToastCard({ tone, title, description, action, onDismiss, classNa
       <span
         aria-hidden
         className={cn(
-          "hidden size-10 shrink-0 place-items-center rounded-sm border border-line bg-graphite bg-grid @min-[13rem]:grid [&>svg]:size-5",
+          "hidden size-10 shrink-0 place-items-center rounded-sm border border-line bg-graphite bg-grid @min-[11.5rem]:grid [&>svg]:size-5",
           t.iconColor,
         )}
       >
@@ -46,7 +49,7 @@ export function ToastCard({ tone, title, description, action, onDismiss, classNa
       </span>
       <div className="min-w-0 flex-1">
         <p className="text-body leading-6 font-semibold">{title}</p>
-        {description ? <p className="mt-1 text-caption text-steel">{description}</p> : null}
+        {description ? <p className="codes-fit mt-1 text-caption text-steel">{description}</p> : null}
         {action ? (
           <button
             type="button"

@@ -16,6 +16,9 @@ export function SparkMark({ className }: { className?: string }) {
   )
 }
 
+/** Width of the strip's end-edge fade: keep in step with the nav's mask-image. */
+const FADE_PX = 24
+
 /**
  * Scroll the nav strip ONLY (never the page) so `el` sits clear of the
  * end-edge fade. element.scrollIntoView() would also scroll the document,
@@ -24,11 +27,17 @@ export function SparkMark({ className }: { className?: string }) {
 function revealInStrip(strip: HTMLElement, el: HTMLElement) {
   const s = strip.getBoundingClientRect()
   const r = el.getBoundingClientRect()
-  // 32px clear of the fade when there is room; never push a link out of a
+  // Clear the fade first (end edge), then leave air at the start edge. Never
+  // ask for more room than the strip has, so a link is never pushed out of a
   // narrow strip (large browser fonts on phones).
-  const pad = Math.max(0, Math.min(32, (s.width - r.width) / 2))
-  if (r.left < s.left + pad) strip.scrollBy({ left: r.left - s.left - pad })
-  else if (r.right > s.right - pad) strip.scrollBy({ left: r.right - s.right + pad })
+  const room = Math.max(0, s.width - r.width)
+  const endPad = Math.min(FADE_PX + 8, room)
+  const startPad = Math.min(32, room - endPad)
+  const rtl = getComputedStyle(strip).direction === "rtl"
+  const padLeft = rtl ? endPad : startPad
+  const padRight = rtl ? startPad : endPad
+  if (r.left < s.left + padLeft) strip.scrollBy({ left: r.left - s.left - padLeft })
+  else if (r.right > s.right - padRight) strip.scrollBy({ left: r.right - s.right + padRight })
 }
 
 export function TileHeader() {
@@ -53,15 +62,15 @@ export function TileHeader() {
     return () => window.removeEventListener("spark:cart-add", onAdd)
   }, [])
 
-  // Scroll-spy. The hero (#top) is observed too, so going back up clears
+  // Scroll-spy. The hero is observed too, so going back up clears
   // aria-current instead of leaving the last sheet marked.
   useEffect(() => {
-    const ids = ["top", ...SHEETS.map((s) => s.id)]
+    const ids = ["hero", ...SHEETS.map((s) => s.id)]
     const els = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
     const io = new IntersectionObserver(
       (entries) => {
         const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
-        if (vis[0]) setActive(vis[0].target.id === "top" ? "" : vis[0].target.id)
+        if (vis[0]) setActive(vis[0].target.id === "hero" ? "" : vis[0].target.id)
       },
       { rootMargin: "-30% 0px -60% 0px" },
     )
@@ -78,17 +87,21 @@ export function TileHeader() {
     if (link) revealInStrip(strip, link)
   }, [active])
 
-  // Fade the end edge only while the last link is (partly) hidden past it —
-  // not when merely the list's end padding overflows.
+  // Fade the end edge only while the last link's content is (partly) hidden
+  // past it — not when merely padding (the list's, or the link's own) overflows.
   useEffect(() => {
     const strip = nav.current
     if (!strip) return
+    const rtl = getComputedStyle(strip).direction === "rtl"
     const update = () => {
       const last = strip.querySelector<HTMLElement>("li:last-child a")
       if (!last) return
       const s = strip.getBoundingClientRect()
       const r = last.getBoundingClientRect()
-      setMoreEnd(getComputedStyle(strip).direction === "rtl" ? r.left < s.left - 1 : r.right > s.right + 1)
+      const cs = getComputedStyle(last)
+      setMoreEnd(
+        rtl ? r.left + parseFloat(cs.paddingLeft) < s.left - 1 : r.right - parseFloat(cs.paddingRight) > s.right + 1,
+      )
     }
     update()
     strip.addEventListener("scroll", update, { passive: true })
@@ -104,11 +117,15 @@ export function TileHeader() {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-line bg-graphite/85 backdrop-blur-md">
-        <div className="mx-auto flex h-14 max-w-[1360px] items-center gap-4 px-4 sm:px-6 lg:px-10">
-          {/* name = the visible text + a hidden purpose (label-in-name, WCAG 2.5.3) */}
+        {/* max-[18rem]: rem media queries scale with the browser's default font size, so
+            this is a phone with Large/Very large text: the wordmark goes sr-only and the
+            gaps tighten, so the nav strip keeps room for at least one whole link */}
+        <div className="mx-auto flex h-14 max-w-[1360px] items-center gap-4 px-4 max-[18rem]:gap-3 sm:px-6 lg:px-10">
+          {/* name = the visible text + a hidden purpose (label-in-name, WCAG 2.5.3).
+              #top with no such id = the top of the document (HTML spec), so it lands at 0 */}
           <a href="#top" className="relative flex shrink-0 items-center gap-3 rounded-sm">
             <SparkMark />
-            <span className="flex items-baseline gap-2">
+            <span className="flex items-baseline gap-2 max-[18rem]:sr-only">
               <span className="text-body font-semibold text-paper">ספרק</span>
               <span className="label-mono hidden sm:inline">
                 <En>Style Tile · Rev A</En>
@@ -118,7 +135,8 @@ export function TileHeader() {
           </a>
 
           {/* @container: labels show only when the strip is >= 49rem wide — rem scales
-              with the browser's default font size, so they never clip at Large/Very large */}
+              with the browser's default font size, so they never clip at Large/Very large.
+              The mask's 24px is FADE_PX. */}
           <nav
             ref={nav}
             aria-label="גיליונות"

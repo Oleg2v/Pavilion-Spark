@@ -30,9 +30,12 @@ const WORD_CHAR = /[A-Za-z\d]/
  */
 export function Iso({ children }: { children: string }) {
   const out: React.ReactNode[] = []
+  // exec loop, not matchAll (Chrome < 73, Safari < 13); a fresh copy so the
+  // shared literal's lastIndex never carries over between calls
+  const re = new RegExp(NUMERIC)
   let last = 0
-  for (const m of children.matchAll(NUMERIC)) {
-    const start = m.index ?? 0
+  for (let m = re.exec(children); m; m = re.exec(children)) {
+    const start = m.index
     if (start > 0 && WORD_CHAR.test(children[start - 1])) continue // inside a word: "H7", "B2B"
     if (start > last) out.push(<Fragment key={`t${last}`}>{children.slice(last, start)}</Fragment>)
     out.push(<bdi key={`n${start}`}>{m[0]}</bdi>)
