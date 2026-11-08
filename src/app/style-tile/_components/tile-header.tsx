@@ -67,10 +67,18 @@ export function TileHeader() {
   useEffect(() => {
     const ids = ["hero", ...SHEETS.map((s) => s.id)]
     const els = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
+    // An observer batch holds only the entries that changed, so remember who is
+    // in the band across batches: after a small scroll back, the batch can hold
+    // just the sheet that left, while the one still in the band never re-reports.
+    const inBand = new Set<Element>()
     const io = new IntersectionObserver(
       (entries) => {
-        const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
-        if (vis[0]) setActive(vis[0].target.id === "hero" ? "" : vis[0].target.id)
+        for (const e of entries) {
+          if (e.isIntersecting) inBand.add(e.target)
+          else inBand.delete(e.target)
+        }
+        const top = els.find((el) => inBand.has(el)) // document order: the top-most
+        if (top) setActive(top.id === "hero" ? "" : top.id)
       },
       { rootMargin: "-30% 0px -60% 0px" },
     )
@@ -80,7 +88,9 @@ export function TileHeader() {
 
   // Keep the active sheet link visible inside the strip — unless the user is
   // keyboard-focused in the nav: never pull the strip away from focus.
+  const activeRef = useRef("")
   useEffect(() => {
+    activeRef.current = active
     const strip = nav.current
     if (!active || !strip || strip.contains(document.activeElement)) return
     const link = strip.querySelector<HTMLAnchorElement>(`a[href="#${active}"]`)
@@ -103,9 +113,22 @@ export function TileHeader() {
         rtl ? r.left + parseFloat(cs.paddingLeft) < s.left - 1 : r.right - parseFloat(cs.paddingRight) > s.right + 1,
       )
     }
+    // A resize (e.g. crossing the compact breakpoint) moves the links under a
+    // strip that keeps its scroll offset: reveal the focused or current link again.
+    const onResize = () => {
+      update()
+      const focused = document.activeElement
+      const link =
+        focused instanceof HTMLAnchorElement && strip.contains(focused) && focused.matches(":focus-visible")
+          ? focused
+          : activeRef.current
+            ? strip.querySelector<HTMLAnchorElement>(`a[href="#${activeRef.current}"]`)
+            : null
+      if (link) revealInStrip(strip, link)
+    }
     update()
     strip.addEventListener("scroll", update, { passive: true })
-    const ro = new ResizeObserver(update)
+    const ro = new ResizeObserver(onResize)
     ro.observe(strip)
     if (strip.firstElementChild) ro.observe(strip.firstElementChild)
     return () => {
@@ -116,7 +139,8 @@ export function TileHeader() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-line bg-graphite/85 backdrop-blur-md">
+      {/* /95, not /85: light swatches scrolling underneath pulled the 11px fog numbers to 4.0:1 */}
+      <header className="sticky top-0 z-40 border-b border-line bg-graphite/95 backdrop-blur-md">
         {/* compact (phone + large browser text): the wordmark goes sr-only and the gaps
             tighten, so the nav strip keeps room for at least one whole link */}
         <div className="mx-auto flex h-14 max-w-[1360px] items-center gap-4 px-4 compact:gap-3 sm:px-6 lg:px-10">
@@ -153,8 +177,10 @@ export function TileHeader() {
                       // move the link away before mouseup and lose the click
                       if (nav.current && e.currentTarget.matches(":focus-visible")) revealInStrip(nav.current, e.currentTarget)
                     }}
-                    // relative: keeps the sr-only label inside the scroll strip (it widened the page at 320px)
-                    className="relative flex h-8 items-center gap-2 rounded-sm px-2 text-caption whitespace-nowrap text-steel transition-colors duration-fast hover:bg-panel hover:text-paper focus-visible:-outline-offset-2 aria-[current=location]:text-paper"
+                    // relative: keeps the sr-only label inside the scroll strip (it widened the page at 320px).
+                    // The current sheet is underlined as well as recoloured, so it does not rely on colour
+                    // alone and survives forced-colors mode.
+                    className="relative flex h-8 items-center gap-2 rounded-sm px-2 text-caption whitespace-nowrap text-steel transition-colors duration-fast hover:bg-panel hover:text-paper focus-visible:-outline-offset-2 aria-[current=location]:text-paper aria-[current=location]:underline aria-[current=location]:decoration-cyan aria-[current=location]:decoration-2 aria-[current=location]:underline-offset-[0.4em]"
                   >
                     <span className="font-mono text-micro text-fog tabular-nums [[aria-current=location]_&]:text-cyan">
                       <bdi>{String(s.n).padStart(2, "0")}</bdi>
@@ -185,13 +211,13 @@ export function TileHeader() {
             id="tile-cart"
             className="relative grid size-8 shrink-0 place-items-center rounded-sm border border-line-strong text-paper"
             role="status"
-            aria-label={count ? `${count} פריטים בסל הדוגמה` : "סל הדוגמה ריק"}
+            aria-label={count === 0 ? "סל הדוגמה ריק" : count === 1 ? "פריט אחד בסל הדוגמה" : `${count} פריטים בסל הדוגמה`}
           >
             <ShoppingCart className="size-4" strokeWidth={1.5} aria-hidden />
             <span
               ref={badge}
               aria-hidden
-              className={`absolute -end-2 -top-2 h-4 min-w-4 place-items-center rounded-full bg-plate px-1 font-mono text-[10px] leading-none font-semibold text-graphite ${count ? "grid" : "hidden"}`}
+              className={`absolute -end-2 -top-2 h-4 min-w-4 place-items-center rounded-full bg-plate px-1 font-mono text-micro leading-none font-semibold text-graphite ${count ? "grid" : "hidden"}`}
             >
               {count}
             </span>

@@ -33,7 +33,8 @@ export function ToastCard({ tone, title, description, action, onDismiss, classNa
         // icon + gaps + dismiss (5.5rem) + 11 mono characters at the largest
         // caption size (5.8rem), rounded up to 11.5rem. Only phones with very
         // large browser text.
-        "@container relative flex w-full items-start gap-3 rounded-md border border-line-strong bg-panel p-4 text-paper shadow-overlay",
+        // font-sans: sonner puts a system font stack on its toaster, which live toasts inherit
+        "@container relative flex w-full items-start gap-3 rounded-md border border-line-strong bg-panel p-4 font-sans text-paper shadow-overlay",
         className,
       )}
     >
@@ -54,7 +55,7 @@ export function ToastCard({ tone, title, description, action, onDismiss, classNa
           <button
             type="button"
             onClick={action.onClick}
-            className="mt-2 inline-flex h-8 items-center gap-1 rounded-sm px-2 -ms-2 text-caption font-semibold text-paper underline decoration-edge underline-offset-4 transition-colors duration-fast hover:decoration-plate"
+            className="mt-2 inline-flex min-h-8 items-center gap-1 rounded-sm px-2 py-1 -ms-2 text-caption font-semibold text-paper underline decoration-edge underline-offset-4 transition-colors duration-fast hover:decoration-plate"
           >
             {action.label}
           </button>

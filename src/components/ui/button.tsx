@@ -54,6 +54,9 @@ const buttonVariants = cva(
         "icon-lg": "size-12",
       },
     },
+    // cva appends size classes after variant classes, so the link's own h-auto
+    // px-0 would lose to e.g. h-10 px-4: re-assert them after the size
+    compoundVariants: [{ variant: "link", class: "h-auto px-0" }],
     defaultVariants: {
       variant: "primary",
       size: "md",

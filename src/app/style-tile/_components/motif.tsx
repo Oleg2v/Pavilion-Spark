@@ -27,7 +27,7 @@ export function Motif() {
     <div className="grid grid-cols-[minmax(0,1fr)] gap-12">
       <div className="grid gap-6 lg:grid-cols-12">
         {/* callout composition */}
-        <figure className="relative overflow-hidden rounded-md border border-line bg-graphite bg-grid lg:col-span-8">
+        <figure className="relative overflow-hidden rounded-md border border-line bg-graphite bg-grid lg:col-span-8 lg:self-start">
           <div className="relative mx-auto aspect-[4/3] w-full max-w-[760px] px-6 py-10 sm:px-16">
             <div className="relative size-full">
               <PartArt kind="headlight" className="absolute inset-0 size-full" title="שרטוט פנס ראשי עם קווי הסבר" />

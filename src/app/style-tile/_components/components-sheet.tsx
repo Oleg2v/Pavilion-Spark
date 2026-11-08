@@ -12,7 +12,7 @@ import { PartArt } from "@/components/spark/line-art"
 import { fireSpark } from "@/components/spark/spark-trail"
 import { ToastCard, notify } from "@/components/spark/toast-card"
 import { Price } from "@/components/spark/price"
-import { En, Iso } from "@/components/spark/text"
+import { En, Iso, Words } from "@/components/spark/text"
 import { cn } from "@/lib/utils"
 import { SpecLabel } from "./sheet"
 
@@ -44,7 +44,7 @@ function StateLabel({ children }: { children: React.ReactNode }) {
   // a phrase, not a code: it may wrap ("rest · hover → cad-frame" is 238px at 24px fonts)
   return (
     <span className="font-mono text-micro text-fog">
-      <En className="whitespace-normal">{children}</En>
+      <En className="whitespace-normal">{typeof children === "string" ? <Words>{children}</Words> : children}</En>
     </span>
   )
 }
@@ -174,7 +174,7 @@ function InputSpec() {
             onChange={(e) => setValue(e.target.value)}
             placeholder="מספר רכב, מק״ט, מספר OE או תיאור חלק"
             aria-describedby="omnibox-hint"
-            className="h-14 ps-12 pe-12 text-body sm:pe-24 sm:text-lead [&::-webkit-search-cancel-button]:hidden"
+            className="h-14 ps-12 pe-12 text-body text-ellipsis max-sm:placeholder-shown:pe-4 sm:pe-24 sm:text-lead [&::-webkit-search-cancel-button]:hidden"
             autoComplete="off"
           />
           <span className="absolute end-3 top-1/2 flex -translate-y-1/2 items-center gap-2">
@@ -244,7 +244,10 @@ function PartCard() {
           title: "נוסף לסל",
           description: (
             <>
-              פנס ראשי ימני · <bdi lang="en" className="font-mono">TYC <span>20-1234-00</span></bdi> · <bdi>×1</bdi>
+              פנס ראשי ימני · <bdi lang="en" className="font-mono">TYC <span>20-1234-00</span></bdi>{" "}
+              <span className="whitespace-nowrap">
+                · <bdi>×1</bdi>
+              </span>
             </>
           ),
           action: { label: "לסל ←" },
@@ -259,7 +262,7 @@ function PartCard() {
         <span className="absolute start-3 top-3 label-mono text-cyan">
           <En>01 · ELEC</En>
         </span>
-        <span className="absolute end-3 top-3">
+        <span className="absolute end-3 top-3 compact:top-auto compact:bottom-3">
           <Chip tone="demo">מחירי דמו</Chip>
         </span>
       </CardMedia>
@@ -435,18 +438,20 @@ const nis = (n: number) => `₪${n.toLocaleString("en-US", { minimumFractionDigi
 function TableSpec() {
   return (
     <Frame code="C-05" title="שורת טבלה" note="מחירון 2026 · מספרים מיושרים לספרת האחדות" className="xl:col-span-2">
-      <ul className="grid gap-px overflow-hidden rounded-md border border-line bg-line lg:hidden" aria-label="דוגמת מחירון — תצוגת כרטיסים">
+      {/* minmax(0,1fr): a row's min-content can never widen the list past its clipping edge */}
+      <ul className="grid grid-cols-[minmax(0,1fr)] gap-px overflow-hidden rounded-md border border-line bg-line lg:hidden" aria-label="דוגמת מחירון — תצוגת כרטיסים">
         {ROWS.map((r) => (
           <li
             key={r.sku}
             className={cn(
-              "relative grid grid-cols-[1fr_auto] gap-x-4 gap-y-2 bg-graphite p-4",
+              // flex-wrap: the price block moves under the name only when both cannot share a line
+              "relative flex flex-wrap items-start gap-x-4 gap-y-2 bg-graphite p-4",
               // opaque tint: a translucent bg-cyan/6 would let the bg-line separators show through
               r.state === "selected" &&
                 "bg-[color-mix(in_oklab,var(--color-cyan)_6%,var(--color-graphite))] before:absolute before:inset-y-0 before:start-0 before:w-0.5 before:bg-cyan",
             )}
           >
-            <span className="grid gap-1">
+            <span className="grid grow basis-0 gap-1">
               <span className={cn("text-body font-medium", r.state === "out" && "text-steel")}>
                 <Iso>{r.name}</Iso>
               </span>
@@ -456,13 +461,13 @@ function TableSpec() {
                 <bdi>{r.brand}</bdi>
               </span>
             </span>
-            <span className="grid justify-items-end gap-1">
+            <span className="ms-auto grid shrink-0 justify-items-end gap-1">
               <bdi className="font-mono text-body font-semibold text-paper">{nis(r.price)}</bdi>
               <s className="font-mono text-caption text-fog">
                 <bdi>{nis(r.list)}</bdi>
               </s>
             </span>
-            <span className="col-span-2">
+            <span className="basis-full">
               {r.stock === 0 ? (
                 <Chip tone="out" dot>
                   אזל
@@ -556,7 +561,10 @@ function ToastSpec() {
           title="נוסף לסל"
           description={
             <>
-              פנס ראשי ימני · <bdi lang="en" className="font-mono">TYC <span>20-1234-00</span></bdi> · <bdi>×1</bdi>
+              פנס ראשי ימני · <bdi lang="en" className="font-mono">TYC <span>20-1234-00</span></bdi>{" "}
+              <span className="whitespace-nowrap">
+                · <bdi>×1</bdi>
+              </span>
             </>
           }
           action={{ label: "לסל ←" }}

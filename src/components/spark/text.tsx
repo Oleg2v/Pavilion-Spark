@@ -13,6 +13,23 @@ export function En({ children, className }: { children: React.ReactNode; classNa
 }
 
 /**
+ * Breaks only between words: each word stays whole, so "cad-frame" or
+ * "20-1234-00" never splits at its hyphen when the line wraps.
+ */
+export function Words({ children }: { children: string }) {
+  return (
+    <>
+      {children.split(" ").map((w, i) => (
+        <Fragment key={i}>
+          {i ? " " : null}
+          <span className="whitespace-nowrap">{w}</span>
+        </Fragment>
+      ))}
+    </>
+  )
+}
+
+/**
  * Numeric runs in Hebrew prose: ranges, units, ratios, times.
  * "180–260ms", "≥3:1", "×2", "+30%", "1.5%", "11:00", "(390 / 768 / 1024+)".
  * Separators must be followed by a digit, so a sentence-final "." or ","

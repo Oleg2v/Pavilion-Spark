@@ -132,11 +132,12 @@ export function Palette() {
           <h3 className="label-mono">
             <En>DERIVED · CONTRAST-TUNED</En>
           </h3>
-          <ul className="grid gap-px overflow-hidden rounded-md border border-line bg-line">
+          <ul className="grid grid-cols-[minmax(0,1fr)] gap-px overflow-hidden rounded-md border border-line bg-line">
             {DERIVED.map((s) => (
-              <li key={s.token} className="grid grid-cols-[auto_1fr_auto] items-center gap-4 bg-panel p-3">
-                <span aria-hidden className="size-10 rounded-sm border border-line-strong" style={{ backgroundColor: s.hex }} />
-                <span className="grid">
+              // flex-wrap: at large browser fonts the hex/contrast block moves under the name instead of being clipped
+              <li key={s.token} className="flex flex-wrap items-center gap-x-4 gap-y-2 bg-panel p-3">
+                <span aria-hidden className="size-10 shrink-0 rounded-sm border border-line-strong" style={{ backgroundColor: s.hex }} />
+                <span className="grid grow basis-0">
                   <span className="text-body font-medium">
                     {s.he} <span className="label-mono ms-2"><En>{s.en}</En></span>
                   </span>
@@ -144,7 +145,7 @@ export function Palette() {
                     <Iso>{s.role}</Iso>
                   </span>
                 </span>
-                <span className="grid justify-items-end gap-1">
+                <span className="ms-auto grid shrink-0 justify-items-end gap-1">
                   <bdi className="font-mono text-caption text-paper">{s.hex}</bdi>
                   {s.surface ? (
                     <bdi className="font-mono text-micro text-steel">paper {contrast(SURFACE_HEX.paper, s.hex).toFixed(1)}:1</bdi>

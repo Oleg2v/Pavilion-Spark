@@ -306,10 +306,11 @@
   /* Keep anchor targets and focused controls clear of the 56px sticky header.
      Set on the targets, not as html scroll-padding: Chrome applies
      scroll-padding to focus inside the sticky header too and jumps the page. */
-  /* 5rem = the 3.5rem header + 1.5rem air, so it scales with the browser font. */
+  /* 5rem = the 3.5rem header + 1.5rem air, so it scales with the browser font.
+     The end margin keeps a focus ring whole when Tab scrolls a control up from below. */
   main,
   main :where([id], a, button, input, select, textarea, summary, [tabindex]) {
-    scroll-margin-block-start: 5rem;
+    scroll-margin-block: 5rem 0.75rem;
   }
 
   ::selection {
@@ -345,6 +346,8 @@
     max-width: 100%;
     white-space: normal;
     overflow-wrap: break-word;
+    /* a wrapped LTR code keeps to the paragraph's start edge, not its own */
+    text-align: match-parent;
   }
 
   /* Icon nudge toward inline-end on hover (arrows in primary actions) */
@@ -401,4 +404,19 @@
   :focus-visible {
     outline: 2px solid CanvasText;
   }
+}
+
+/* ── Sonner (unstyled toasts). Unlayered on purpose: sonner injects
+      unlayered rules, so these need specificity, not layer order. ───────── */
+/* sonner sets outline:0 on every toast; a keyboard-focused toast needs its ring */
+[data-sonner-toast]:focus-visible {
+  outline: 2px solid var(--color-plate);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+}
+/* collapsed stack: a toast behind the front one takes the front toast's
+   height; clip it, or a taller card peeks out below the front card */
+[data-sonner-toast][data-expanded="false"][data-front="false"] {
+  overflow: hidden;
+  border-radius: var(--radius-md);
 }

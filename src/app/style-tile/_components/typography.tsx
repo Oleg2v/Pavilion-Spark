@@ -2,7 +2,7 @@ import { TYPE_SCALE } from "@/lib/design-tokens"
 import { cn } from "@/lib/utils"
 import { Price } from "@/components/spark/price"
 import { LivePx } from "./live-px"
-import { En, Iso } from "@/components/spark/text"
+import { En, Iso, Words } from "@/components/spark/text"
 
 const FAMILIES = [
   {
@@ -76,7 +76,9 @@ export function Typography() {
               {f.cls.includes("mono") ? (
                 <span className="flex flex-wrap gap-x-3 gap-y-1">
                   {f.sample.split(" · ").map((part) => (
-                    <bdi key={part}>{part}</bdi>
+                    <bdi key={part}>
+                      <Words>{part}</Words>
+                    </bdi>
                   ))}
                 </span>
               ) : (

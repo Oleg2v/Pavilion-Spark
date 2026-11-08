@@ -52,14 +52,14 @@ function DurationRuler() {
           הרצה במקביל
         </Button>
       </div>
-      <ol className="grid overflow-hidden rounded-md border border-line">
+      <ol className="grid grid-cols-[minmax(0,1fr)] overflow-hidden rounded-md border border-line">
         {DURATIONS.map((d, i) => (
           <li
             key={d.token}
-            className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-3 border-b border-line bg-graphite p-4 last:border-b-0 md:grid-cols-[11.25rem_minmax(0,1fr)_auto] md:px-6"
+            className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-3 border-b border-line bg-graphite p-4 last:border-b-0 md:grid-cols-[11.25rem_minmax(0,1fr)_auto] md:px-6"
           >
             <span className="grid gap-1">
-              <span className="flex items-baseline gap-3">
+              <span className="flex flex-wrap items-baseline gap-x-3">
                 <En className="font-mono text-caption text-paper">dur-{d.token}</En>
                 <bdi className="font-mono text-micro text-cyan">{d.ms}ms</bdi>
               </span>

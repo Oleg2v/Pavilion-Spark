@@ -39,7 +39,9 @@ export function Space() {
             <dt className="text-steel">עמודות</dt>
             <dd>
               <bdi className="font-mono">4 / 8 / 12</bdi> <span className="text-caption text-steel">
-                (<bdi>390 / 768 / 1024+</bdi>)
+                <bdi dir="ltr" className="inline-block max-w-full">
+                  (390 / 768 / 1024+)
+                </bdi>
               </span>
             </dd>
             <dt className="text-steel">שוליים</dt>

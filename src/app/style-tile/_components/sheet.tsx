@@ -71,7 +71,7 @@ export function Sheet({
 export function SpecLabel({ code, children, className }: { code: string; children: React.ReactNode; className?: string }) {
   return (
     <div className={cn("flex items-baseline gap-3", className)}>
-      <span className="label-mono text-cyan">
+      <span className="label-mono shrink-0 whitespace-nowrap text-cyan">
         <En>{code}</En>
       </span>
       <h3 className="text-title font-semibold text-paper">{children}</h3>
