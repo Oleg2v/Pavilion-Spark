@@ -41,9 +41,10 @@ function Frame({
 }
 
 function StateLabel({ children }: { children: React.ReactNode }) {
+  // a phrase, not a code: it may wrap ("rest · hover → cad-frame" is 238px at 24px fonts)
   return (
     <span className="font-mono text-micro text-fog">
-      <En>{children}</En>
+      <En className="whitespace-normal">{children}</En>
     </span>
   )
 }
