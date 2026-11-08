@@ -151,11 +151,11 @@ export function Motif() {
         </h3>
         <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-md border border-line bg-line sm:grid-cols-3 lg:grid-cols-6">
           {PARTS.map((p) => (
-            <li key={p.kind} className="grid gap-3 bg-graphite p-4">
+            <li key={p.kind} className="grid gap-3 bg-graphite p-4 compact:p-3">
               <div className="rounded-sm bg-grid p-2">
                 <PartArt kind={p.kind} />
               </div>
-              <span className="flex items-baseline justify-between gap-2">
+              <span className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-1">
                 <span className="text-caption font-medium">{p.he}</span>
                 <span className="font-mono text-micro text-fog">
                   <En>{p.code}</En>

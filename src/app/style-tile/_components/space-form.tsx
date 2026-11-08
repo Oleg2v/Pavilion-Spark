@@ -35,7 +35,7 @@ export function Space() {
           <h3 className="label-mono">
             <En>LAYOUT</En>
           </h3>
-          <dl className="mt-4 grid grid-cols-1 gap-x-6 gap-y-1 text-body sm:grid-cols-[auto_minmax(0,1fr)] sm:gap-y-3">
+          <dl className="codes-fit mt-4 grid grid-cols-1 gap-x-6 gap-y-1 text-body sm:grid-cols-[auto_minmax(0,1fr)] sm:gap-y-3">
             <dt className="text-steel">עמודות</dt>
             <dd>
               <bdi className="font-mono">4 / 8 / 12</bdi> <span className="text-caption text-steel">

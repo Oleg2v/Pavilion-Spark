@@ -336,10 +336,10 @@
   .font-mono > bdi {
     white-space: nowrap;
   }
-  /* Narrow columns (toasts): a code moves to the next line whole, and wraps
-     (at a hyphen first) only when it is wider than the line on its own, so it
-     never overflows at large browser fonts. "TYC <span>20-1234-00</span>"
-     breaks at the space before it breaks the number. */
+  /* Narrow columns (toasts, value lists): a code moves to the next line
+     whole, and wraps (at a hyphen first) only when it is wider than the line
+     on its own, so it never overflows at large browser fonts.
+     "TYC <span>20-1234-00</span>" breaks at the space before the number. */
   .codes-fit :is(bdi.font-mono, bdi.font-mono > span) {
     display: inline-block;
     max-width: 100%;

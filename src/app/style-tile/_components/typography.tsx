@@ -119,7 +119,7 @@ export function Typography() {
                 {t.family === "mono" ? <En>{t.sample}</En> : t.token === "mega" ? <Price value={389} display /> : t.sample}
               </span>
               <span className="grid gap-1 md:justify-items-end md:text-end">
-                <span className="flex items-center gap-3">
+                <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
                   <bdi lang="en" className="font-mono text-micro text-paper">
                     {t.min}→{t.max}px · lh {t.leading}
                   </bdi>

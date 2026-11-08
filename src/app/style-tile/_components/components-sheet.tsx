@@ -270,9 +270,12 @@ function PartCard() {
           <bdi className="font-mono text-caption text-steel">20-1234-00</bdi>
         </div>
         <h4 className="text-lead font-semibold">פנס ראשי ימני, LED</h4>
+        {/* one span: as separate flex items, the text and the year could not wrap */}
         <p className="flex items-center gap-2 text-caption text-steel">
           <Car className="size-4 shrink-0" strokeWidth={1.5} aria-hidden />
-          טויוטה קורולה · <bdi className="font-mono">2019–2023</bdi>
+          <span>
+            טויוטה קורולה · <bdi className="font-mono">2019–2023</bdi>
+          </span>
         </p>
         <p className="text-caption text-steel">
           OE <bdi className="font-mono text-paper">81130-02B60</bdi>
@@ -281,9 +284,11 @@ function PartCard() {
           <Chip tone="stock" dot>
             במלאי · <bdi className="font-mono">14</bdi>
           </Chip>
-          <Chip tone="eta">
+          <Chip tone="eta" className="h-auto min-h-6 py-1 whitespace-normal">
             <Clock strokeWidth={1.75} aria-hidden />
-            היום עד <bdi className="font-mono">14:00</bdi>
+            <span>
+              היום עד <bdi className="font-mono">14:00</bdi>
+            </span>
           </Chip>
         </div>
         <div className="flex flex-wrap items-end justify-between gap-4 pt-1">
